@@ -1,4 +1,5 @@
 import { Ball } from './ball.js';
+import { Paddle } from './paddle.js';
 
 var canvas = document.getElementById("myCanvas");
 /** @type {WebGLRenderingContext} */
@@ -6,17 +7,11 @@ var ctx = canvas.getContext("2d");
 
 const ballStartX = canvas.width / 2;
 const ballStaryY = canvas.height - 30;
-
 var ball = new Ball(ballStartX, ballStaryY);
-var entities = [ball];
 
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width - paddleWidth) / 2;
-const paddleSpeed = 14;
+var paddle = new Paddle(canvas.width, canvas.height);
 
-var rightPressed = false;
-var leftPressed = false;
+var entities = [ball, paddle];
 
 var brickRowCount = 3;
 var brickColumnCount = 5;
@@ -35,14 +30,6 @@ for (var c = 0; c < brickColumnCount; c++) {
 
 var score = 0;
 var lives = 3;
-
-function drawPaddle() {
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
 
 function drawBricks() {
     for (var c = 0; c < brickColumnCount; c++) {
@@ -88,7 +75,7 @@ function draw() {
     if (ball.y + ball.dy < ball.radius) {
         ball.dy = -ball.dy;
     } else if (ball.y + ball.dy > canvas.height - ball.radius) {
-        if (ball.x > paddleX && ball.x < paddleX + paddleWidth) {
+        if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
             ball.dy = -ball.dy;
         }
         else {
@@ -99,23 +86,17 @@ function draw() {
             }
             else {
                 ball.reset(ballStartX, ballStaryY);
-                paddleX = (canvas.width - paddleWidth) / 2;
+                paddle.reset();
             }
         }
     }
 
-    if (rightPressed && paddleX < canvas.width - paddleWidth) {
-        paddleX += paddleSpeed;
-    }
-    else if (leftPressed && paddleX > 0) {
-        paddleX -= paddleSpeed;
-    }
+    
 
     entities.forEach(function (entity) {
         entity.draw(ctx);
     });
 
-    drawPaddle();
     collisionDetection();
     drawBricks();
     drawScore();
@@ -130,26 +111,26 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 
 function keyDownHandler(e) {
     if (e.keyCode == 39) {
-        rightPressed = true;
+        paddle.rightPressed = true;
     }
     else if (e.keyCode == 37) {
-        leftPressed = true;
+        paddle.leftPressed = true;
     }
 }
 
 function keyUpHandler(e) {
     if (e.keyCode == 39) {
-        rightPressed = false;
+        paddle.rightPressed = false;
     }
     else if (e.keyCode == 37) {
-        leftPressed = false;
+        paddle.leftPressed = false;
     }
 }
 
 function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
     if (relativeX > 0 && relativeX < canvas.width) {
-        paddleX = relativeX - paddleWidth / 2;
+        paddle.x = relativeX - paddle.width / 2;
     }
 }
 

@@ -10,6 +10,7 @@ export class Ball extends Entity {
     reset(x, y) {
         this.x = x;
         this.y = y;
+        
         const speed = 4;
         this.dx = speed;
         this.dy = -speed;
