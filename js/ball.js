@@ -1,5 +1,8 @@
-export class Ball {
+import { Entity } from "./entity.js";
+
+export class Ball extends Entity {
     constructor(x, y) {
+        super();
         this.radius = 10;
         this.reset(x, y);
     }

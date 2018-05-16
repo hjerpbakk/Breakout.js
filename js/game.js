@@ -6,7 +6,9 @@ var ctx = canvas.getContext("2d");
 
 const ballStartX = canvas.width / 2;
 const ballStaryY = canvas.height - 30;
+
 var ball = new Ball(ballStartX, ballStaryY);
+var entities = [ball];
 
 var paddleHeight = 10;
 var paddleWidth = 75;
@@ -74,7 +76,10 @@ function drawLives() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ball.update();
+
+    entities.forEach(function (entity) {
+        entity.update();
+    });
 
     if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
         ball.dx = -ball.dx;
@@ -106,7 +111,10 @@ function draw() {
         paddleX -= paddleSpeed;
     }
 
-    ball.draw(ctx);
+    entities.forEach(function (entity) {
+        entity.draw(ctx);
+    });
+
     drawPaddle();
     collisionDetection();
     drawBricks();
