@@ -1,5 +1,6 @@
 import { Ball } from './ball.js';
 import { Paddle } from './paddle.js';
+import { Brick } from './brick.js';
 
 var canvas = document.getElementById("myCanvas");
 /** @type {WebGLRenderingContext} */
@@ -15,8 +16,6 @@ var entities = [ball, paddle];
 
 var brickRowCount = 3;
 var brickColumnCount = 5;
-var brickWidth = 75;
-var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
@@ -24,7 +23,9 @@ var bricks = [];
 for (var c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
     for (var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+        const brickX = (c * (Brick.width + brickPadding)) + brickOffsetLeft;
+        const brickY = (r * (Brick.height + brickPadding)) + brickOffsetTop;
+        bricks[c][r] = new Brick(brickX, brickY);
     }
 }
 
@@ -34,17 +35,7 @@ var lives = 3;
 function drawBricks() {
     for (var c = 0; c < brickColumnCount; c++) {
         for (var r = 0; r < brickRowCount; r++) {
-            if (bricks[c][r].status == 1) {
-                var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-                var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "#0095DD";
-                ctx.fill();
-                ctx.closePath();
-            }
+            bricks[c][r].draw(ctx);
         }
     }
 }
@@ -139,7 +130,7 @@ function collisionDetection() {
         for (var r = 0; r < brickRowCount; r++) {
             var b = bricks[c][r];
             if (b.status == 1) {
-                if (ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight) {
+                if (ball.x > b.x && ball.x < b.x + Brick.width && ball.y > b.y && ball.y < b.y + Brick.height) {
                     ball.dy = -ball.dy;
                     b.status = 0;
                     score++;
