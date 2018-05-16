@@ -4,13 +4,15 @@ import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
 
 var canvas = document.getElementById("myCanvas");
-/** @type {WebGLRenderingContext} */
-var ctx = canvas.getContext("2d");
+canvas.style.width = "480px";
+canvas.style.height = "320px";
+const maxWidth = 480;
+const maxHeight = 320;
 
-const ballStartX = canvas.width / 2;
-const ballStaryY = canvas.height - 30;
+const ballStartX = maxWidth / 2;
+const ballStaryY = maxHeight - 30;
 var ball = new Ball(ballStartX, ballStaryY);
-var paddle = new Paddle(canvas.width, canvas.height);
+var paddle = new Paddle(maxWidth, maxHeight);
 const brickRowCount = 3;
 const brickColumnCount = 5;
 var bricks = new Bricks(brickRowCount, brickColumnCount);
@@ -18,6 +20,10 @@ var entities = [ball, paddle, bricks];
 
 var score = 0;
 var lives = 3;
+
+/** @type {WebGLRenderingContext} */
+var ctx = canvas.getContext("2d");
+ctx.scale(2,2);
 
 function drawScore() {
     ctx.font = "16px Arial";
@@ -28,23 +34,23 @@ function drawScore() {
 function drawLives() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+    ctx.fillText("Lives: " + lives, maxWidth - 65, 20);
 }
 
 function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, maxWidth, maxHeight);
 
     entities.forEach(function (entity) {
         entity.update();
     });
 
-    if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
+    if (ball.x + ball.dx > maxWidth - ball.radius || ball.x + ball.dx < ball.radius) {
         ball.dx = -ball.dx;
     }
 
     if (ball.y + ball.dy < ball.radius) {
         ball.dy = -ball.dy;
-    } else if (ball.y + ball.dy > canvas.height - ball.radius) {
+    } else if (ball.y + ball.dy > maxHeight - ball.radius) {
         if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
             ball.dy = -ball.dy;
         }
@@ -96,7 +102,7 @@ function keyUpHandler(e) {
 
 function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
+    if (relativeX > 0 && relativeX < maxWidth) {
         paddle.x = relativeX - paddle.width / 2;
     }
 }
