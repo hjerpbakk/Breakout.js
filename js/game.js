@@ -1,16 +1,17 @@
+import { Ball } from './ball.js';
+
 var canvas = document.getElementById("myCanvas");
+/** @type {WebGLRenderingContext} */
 var ctx = canvas.getContext("2d");
 
-var x = canvas.width / 2;
-var y = canvas.height - 30;
-var speed = 4;
-var dx = speed;
-var dy = -speed;
-var ballRadius = 10;
+const ballStartX = canvas.width / 2;
+const ballStaryY = canvas.height - 30;
+var ball = new Ball(ballStartX, ballStaryY);
 
 var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2;
+const paddleSpeed = 14;
 
 var rightPressed = false;
 var leftPressed = false;
@@ -36,14 +37,6 @@ var lives = 3;
 function drawPaddle() {
     ctx.beginPath();
     ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
     ctx.fillStyle = "#0095DD";
     ctx.fill();
     ctx.closePath();
@@ -81,18 +74,17 @@ function drawLives() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    x += dx;
-    y += dy;
+    ball.update();
 
-    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-        dx = -dx;
+    if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
+        ball.dx = -ball.dx;
     }
 
-    if (y + dy < ballRadius) {
-        dy = -dy;
-    } else if (y + dy > canvas.height - ballRadius) {
-        if (x > paddleX && x < paddleX + paddleWidth) {
-            dy = -dy;
+    if (ball.y + ball.dy < ball.radius) {
+        ball.dy = -ball.dy;
+    } else if (ball.y + ball.dy > canvas.height - ball.radius) {
+        if (ball.x > paddleX && ball.x < paddleX + paddleWidth) {
+            ball.dy = -ball.dy;
         }
         else {
             lives--;
@@ -101,23 +93,20 @@ function draw() {
                 document.location.reload();
             }
             else {
-                x = canvas.width / 2;
-                y = canvas.height - 30;
-                dx = speed;
-                dy = -speed;
+                ball.reset(ballStartX, ballStaryY);
                 paddleX = (canvas.width - paddleWidth) / 2;
             }
         }
     }
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
-        paddleX += 7;
+        paddleX += paddleSpeed;
     }
     else if (leftPressed && paddleX > 0) {
-        paddleX -= 7;
+        paddleX -= paddleSpeed;
     }
 
-    drawBall();
+    ball.draw(ctx);
     drawPaddle();
     collisionDetection();
     drawBricks();
@@ -161,8 +150,8 @@ function collisionDetection() {
         for (var r = 0; r < brickRowCount; r++) {
             var b = bricks[c][r];
             if (b.status == 1) {
-                if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                    dy = -dy;
+                if (ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight) {
+                    ball.dy = -ball.dy;
                     b.status = 0;
                     score++;
                     if (score == brickRowCount * brickColumnCount) {
