@@ -1,6 +1,7 @@
 import { Ball } from './ball.js';
 import { Paddle } from './paddle.js';
 import { Brick } from './brick.js';
+import { Bricks } from './bricks.js';
 
 var canvas = document.getElementById("myCanvas");
 /** @type {WebGLRenderingContext} */
@@ -9,36 +10,14 @@ var ctx = canvas.getContext("2d");
 const ballStartX = canvas.width / 2;
 const ballStaryY = canvas.height - 30;
 var ball = new Ball(ballStartX, ballStaryY);
-
 var paddle = new Paddle(canvas.width, canvas.height);
-
-var entities = [ball, paddle];
-
-var brickRowCount = 3;
-var brickColumnCount = 5;
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
-var bricks = [];
-for (var c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (var r = 0; r < brickRowCount; r++) {
-        const brickX = (c * (Brick.width + brickPadding)) + brickOffsetLeft;
-        const brickY = (r * (Brick.height + brickPadding)) + brickOffsetTop;
-        bricks[c][r] = new Brick(brickX, brickY);
-    }
-}
+const brickRowCount = 3;
+const brickColumnCount = 5;
+var bricks = new Bricks(brickRowCount, brickColumnCount);
+var entities = [ball, paddle, bricks];
 
 var score = 0;
 var lives = 3;
-
-function drawBricks() {
-    for (var c = 0; c < brickColumnCount; c++) {
-        for (var r = 0; r < brickRowCount; r++) {
-            bricks[c][r].draw(ctx);
-        }
-    }
-}
 
 function drawScore() {
     ctx.font = "16px Arial";
@@ -82,14 +61,11 @@ function draw() {
         }
     }
 
-    
-
     entities.forEach(function (entity) {
         entity.draw(ctx);
     });
 
     collisionDetection();
-    drawBricks();
     drawScore();
     drawLives();
 
@@ -128,7 +104,7 @@ function mouseMoveHandler(e) {
 function collisionDetection() {
     for (var c = 0; c < brickColumnCount; c++) {
         for (var r = 0; r < brickRowCount; r++) {
-            var b = bricks[c][r];
+            var b = bricks.bricks[c][r];
             if (b.status == 1) {
                 if (ball.x > b.x && ball.x < b.x + Brick.width && ball.y > b.y && ball.y < b.y + Brick.height) {
                     ball.dy = -ball.dy;
