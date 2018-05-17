@@ -2,6 +2,7 @@ import { Ball } from './ball.js';
 import { Paddle } from './paddle.js';
 import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
+import { Player } from './player.js';
 
 var canvas = document.getElementById("myCanvas");
 canvas.style.width = "480px";
@@ -16,26 +17,14 @@ var paddle = new Paddle(maxWidth, maxHeight);
 const brickRowCount = 3;
 const brickColumnCount = 5;
 var bricks = new Bricks(brickRowCount, brickColumnCount);
-var entities = [ball, paddle, bricks];
 
-var score = 0;
-var lives = 3;
+var player = new Player(maxWidth);
+var entities = [ball, paddle, bricks, player];
+
 
 /** @type {WebGLRenderingContext} */
 var ctx = canvas.getContext("2d");
 ctx.scale(2,2);
-
-function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " + score, 8, 20);
-}
-
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: " + lives, maxWidth - 65, 20);
-}
 
 function draw() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
@@ -55,8 +44,8 @@ function draw() {
             ball.dy = -ball.dy;
         }
         else {
-            lives--;
-            if (!lives) {
+            player.lives--;
+            if (!player.lives) {
                 alert("GAME OVER");
                 document.location.reload();
             }
@@ -67,13 +56,13 @@ function draw() {
         }
     }
 
+    collisionDetection();
+
     entities.forEach(function (entity) {
         entity.draw(ctx);
     });
 
-    collisionDetection();
-    drawScore();
-    drawLives();
+    
 
     requestAnimationFrame(draw);
 }
@@ -115,8 +104,8 @@ function collisionDetection() {
                 if (ball.x > b.x && ball.x < b.x + Brick.width && ball.y > b.y && ball.y < b.y + Brick.height) {
                     ball.dy = -ball.dy;
                     b.status = 0;
-                    score++;
-                    if (score == brickRowCount * brickColumnCount) {
+                    player.score++;
+                    if (player.score == brickRowCount * brickColumnCount) {
                         alert("YOU WIN, CONGRATULATIONS!");
                         document.location.reload();
                     }
