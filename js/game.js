@@ -60,9 +60,7 @@ function draw() {
         entity.draw(ctx);
     });
 
-    
-
-    //requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
