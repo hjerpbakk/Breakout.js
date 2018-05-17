@@ -8,7 +8,7 @@ export class Bricks extends Entity {
         this.brickColumnCount = brickColumnCount;
 
         var brickPadding = 10;
-        var brickOffsetTop = 30;
+        var brickOffsetTop = 40;
         var brickOffsetLeft = 30;
         this.bricks = [];
         for (var c = 0; c < brickColumnCount; c++) {

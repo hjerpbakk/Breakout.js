@@ -17,11 +17,11 @@ export class Player extends Entity {
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
-        ctx.font = "16px Arial";
+        ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         ctx.fillStyle = "#0095DD";
         ctx.fillText("Score: " + this.score, 8, 20);
 
-        ctx.font = "16px Arial";
+        ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         ctx.fillStyle = "#0095DD";
         ctx.fillText("Lives: " + this.lives, this.maxWidth - 65, 20);
     }

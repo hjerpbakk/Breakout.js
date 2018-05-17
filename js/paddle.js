@@ -15,7 +15,7 @@ export class Paddle extends Entity {
 
     reset() {
         this.x = (this.maxWidth - this.width) / 2;
-        this.y = this.maxHeight - this.height;
+        this.y = this.maxHeight - this.height * 2;
     }
 
     update() {
