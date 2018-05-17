@@ -4,26 +4,24 @@ import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
 import { Player } from './player.js';
 
-var canvas = document.getElementById("myCanvas");
+const canvas = document.getElementById("myCanvas");
 canvas.style.width = "480px";
-canvas.style.height = "320px";
+canvas.style.height = "360px";
 const maxWidth = 480;
-const maxHeight = 320;
+const maxHeight = 360;
 
-const ballStartX = maxWidth / 2;
-const ballStaryY = maxHeight - 30;
-var ball = new Ball(ballStartX, ballStaryY);
-var paddle = new Paddle(maxWidth, maxHeight);
-const brickRowCount = 3;
-const brickColumnCount = 5;
-var bricks = new Bricks(brickRowCount, brickColumnCount);
+const ball = new Ball(maxWidth, maxHeight);
+const paddle = new Paddle(maxWidth, maxHeight);
+const brickRowCount = 6;
+const brickColumnCount = 7;
+const bricks = new Bricks(brickRowCount, brickColumnCount, maxWidth);
 
-var player = new Player(maxWidth);
-var entities = [ball, paddle, bricks, player];
+const player = new Player(maxWidth);
+const entities = [ball, paddle, bricks, player];
 
 
 /** @type {WebGLRenderingContext} */
-var ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 ctx.scale(2,2);
 
 function draw() {
@@ -50,7 +48,7 @@ function draw() {
                 document.location.reload();
             }
             else {
-                ball.reset(ballStartX, ballStaryY);
+                ball.reset();
                 paddle.reset();
             }
         }
@@ -64,7 +62,7 @@ function draw() {
 
     
 
-    requestAnimationFrame(draw);
+    //requestAnimationFrame(draw);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);

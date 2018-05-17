@@ -1,16 +1,18 @@
 import { Entity } from "./entity.js";
 
 export class Ball extends Entity {
-    constructor(x, y) {
+    constructor(maxWidth, maxHeight) {
         super();
-        this.radius = 10;
-        this.reset(x, y);
+        this.radius = 6;
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+        this.reset();
     }
 
-    reset(x, y) {
-        this.x = x;
-        this.y = y;
-        
+    reset() {
+        this.x = (this.maxWidth - this.radius) / 2;
+        this.y = this.maxHeight - (this.radius / 2) - 19;
+
         const speed = 4;
         this.dx = speed;
         this.dy = -speed;
