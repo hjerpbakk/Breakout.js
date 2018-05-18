@@ -4,9 +4,6 @@ import { clamp } from "./helpers.js";
 export class Paddle extends Drawable {
     constructor(maxWidth, maxHeight, document) {
         super();
-        this.speed = 14;
-        this.height = 10;
-        this.width = 75;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.rightPressed = false;
@@ -16,25 +13,37 @@ export class Paddle extends Drawable {
         this.reset();
     }
 
+    static get width() {
+        return 75;
+    }
+
+    static get height() {
+        return 10;
+    }
+
+    static get speed() {
+        return 10;
+    }
+
     reset() {
-        this.x = (this.maxWidth - this.width) / 2;
-        this.y = this.maxHeight - this.height * 2;
+        this.x = (this.maxWidth - Paddle.width) / 2;
+        this.y = this.maxHeight - Paddle.height * 2;
     }
 
     update() {
         if (this.rightPressed) {
-            this.x += this.speed;
+            this.x += Paddle.speed;
         }
         else if (this.leftPressed) {
-            this.x -= this.speed;
+            this.x -= Paddle.speed;
         }
 
-        this. x = clamp(this.x, 0, this.maxWidth - this.width);
+        this. x = clamp(this.x, 0, this.maxWidth - Paddle.width);
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         ctx.beginPath();
-        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.rect(this.x, this.y, Paddle.width, Paddle.height);
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();

@@ -40,7 +40,7 @@ function draw() {
     if (ball.y + ball.dy < ball.radius) {
         ball.dy = -ball.dy;
     } else if (ball.y + ball.dy > maxHeight - ball.radius) {
-        if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+        if (ball.x > paddle.x && ball.x < paddle.x + Paddle.width) {
             ball.dy = -ball.dy;
         }
         else {
