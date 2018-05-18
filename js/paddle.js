@@ -1,6 +1,6 @@
-import { Entity } from "./entity.js";
+import { Drawable } from "./drawable.js";
 
-export class Paddle extends Entity {
+export class Paddle extends Drawable {
     constructor(maxWidth, maxHeight) {
         super();
         this.speed = 14;
@@ -30,7 +30,7 @@ export class Paddle extends Entity {
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
     }

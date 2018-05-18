@@ -4,20 +4,22 @@ import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
 import { Player } from './player.js';
 
-const canvas = document.getElementById("myCanvas");
-canvas.style.width = "480px";
-canvas.style.height = "360px";
 const maxWidth = 480;
 const maxHeight = 360;
+const brickRowCount = 6;
+const brickColumnCount = 7;
+
+const canvas = document.getElementById("myCanvas");
+canvas.style.width = maxWidth + "px";
+canvas.style.height = maxHeight + "px";
 
 const ball = new Ball(maxWidth, maxHeight);
 const paddle = new Paddle(maxWidth, maxHeight);
-const brickRowCount = 6;
-const brickColumnCount = 7;
 const bricks = new Bricks(brickRowCount, brickColumnCount, maxWidth);
-
 const player = new Player(maxWidth);
-const entities = [ball, paddle, bricks, player];
+
+const drawables = [ball, paddle, bricks, player];
+const updateables = [ball, paddle];
 
 
 /** @type {WebGLRenderingContext} */
@@ -27,8 +29,8 @@ ctx.scale(2,2);
 function draw() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
 
-    entities.forEach(function (entity) {
-        entity.update();
+    updateables.forEach(function (updateable) {
+        updateable.update();
     });
 
     if (ball.x + ball.dx > maxWidth - ball.radius || ball.x + ball.dx < ball.radius) {
@@ -56,8 +58,8 @@ function draw() {
 
     collisionDetection();
 
-    entities.forEach(function (entity) {
-        entity.draw(ctx);
+    drawables.forEach(function (drawable) {
+        drawable.draw(ctx);
     });
 
     requestAnimationFrame(draw);

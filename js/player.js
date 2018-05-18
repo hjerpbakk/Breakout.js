@@ -1,6 +1,6 @@
-import { Entity } from "./entity.js";
+import { Drawable } from "./drawable.js";
 
-export class Player extends Entity {
+export class Player extends Drawable {
     constructor(maxWidth) {
         super();
         this.maxWidth = maxWidth;
@@ -12,17 +12,13 @@ export class Player extends Entity {
         this.lives = 3;
     }
 
-    update() {
-
-    }
-
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "black";
         ctx.fillText("Score: " + this.score, 8, 20);
 
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "black";
         ctx.fillText("Lives: " + this.lives, this.maxWidth - 65, 20);
     }
 }

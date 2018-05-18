@@ -1,6 +1,6 @@
-import { Entity } from "./entity.js";
+import { Drawable } from "./drawable.js";
 
-export class Ball extends Entity {
+export class Ball extends Drawable {
     constructor(maxWidth, maxHeight) {
         super();
         this.radius = 6;
@@ -26,7 +26,7 @@ export class Ball extends Entity {
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
     }

@@ -1,6 +1,6 @@
-import { Entity } from "./entity.js";
+import { Drawable } from "./drawable.js";
 
-export class Brick extends Entity {
+export class Brick extends Drawable {
     constructor(x, y, color) {
         super();
         this.x = x;
@@ -15,9 +15,6 @@ export class Brick extends Entity {
     
     static get height() {
         return 15;
-    }
-    
-    update() {
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
