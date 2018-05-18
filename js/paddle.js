@@ -38,7 +38,7 @@ export class Paddle extends Drawable {
             this.x -= Paddle.speed;
         }
 
-        this. x = clamp(this.x, 0, this.maxWidth - Paddle.width);
+        this.x = clamp(this.x, 0, this.maxWidth - Paddle.width);
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {

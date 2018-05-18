@@ -1,4 +1,6 @@
 import { Drawable } from "./drawable.js";
+import { clamp } from "./helpers.js";
+import { Paddle } from "./paddle.js";
 
 export class Ball extends Drawable {
     constructor(maxWidth, maxHeight) {
@@ -9,18 +11,30 @@ export class Ball extends Drawable {
         this.reset();
     }
 
+    static get speed() {
+        return 3;
+    }
+
     reset() {
         this.x = (this.maxWidth - this.radius) / 2;
-        this.y = this.maxHeight - (this.radius / 2) - 19;
-
-        const speed = 4;
-        this.dx = speed;
-        this.dy = -speed;
+        this.y = this.maxHeight - this.radius + 1 - Paddle.height * 2;
+        this.dx = Ball.speed;
+        this.dy = -Ball.speed;
     }
 
     update() {
         this.x += this.dx;
         this.y += this.dy;
+        this.x = clamp(this.x, this.radius - 1, this.maxWidth - this.radius + 1);
+        this.y = clamp(this.y, this.radius - 1, this.maxHeight - this.radius + 1);
+
+        if (this.x > this.maxWidth - this.radius || this.x < this.radius) {
+            this.dx = -this.dx;
+        }
+        
+        if (this.y < this.radius) {
+            this.dy = -this.dy;
+        }
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
