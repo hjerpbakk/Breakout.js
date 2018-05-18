@@ -14,9 +14,9 @@ canvas.style.width = maxWidth + "px";
 canvas.style.height = maxHeight + "px";
 
 const ball = new Ball(maxWidth, maxHeight);
-const paddle = new Paddle(maxWidth, maxHeight);
+const paddle = new Paddle(maxWidth, maxHeight, document);
 const bricks = new Bricks(brickRowCount, brickColumnCount, maxWidth);
-const player = new Player(maxWidth);
+const player = new Player(maxWidth, paddle);
 
 const drawables = [ball, paddle, bricks, player];
 const updateables = [ball, paddle];
@@ -63,35 +63,6 @@ function draw() {
     });
 
     requestAnimationFrame(draw);
-}
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-
-function keyDownHandler(e) {
-    if (e.keyCode == 39) {
-        paddle.rightPressed = true;
-    }
-    else if (e.keyCode == 37) {
-        paddle.leftPressed = true;
-    }
-}
-
-function keyUpHandler(e) {
-    if (e.keyCode == 39) {
-        paddle.rightPressed = false;
-    }
-    else if (e.keyCode == 37) {
-        paddle.leftPressed = false;
-    }
-}
-
-function mouseMoveHandler(e) {
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < maxWidth) {
-        paddle.x = relativeX - paddle.width / 2;
-    }
 }
 
 function collisionDetection() {

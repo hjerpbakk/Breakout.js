@@ -1,7 +1,8 @@
 import { Drawable } from "./drawable.js";
+import { clamp } from "./helpers.js";
 
 export class Paddle extends Drawable {
-    constructor(maxWidth, maxHeight) {
+    constructor(maxWidth, maxHeight, document) {
         super();
         this.speed = 14;
         this.height = 10;
@@ -10,7 +11,9 @@ export class Paddle extends Drawable {
         this.maxHeight = maxHeight;
         this.rightPressed = false;
         this.leftPressed = false;
-        this.reset();       
+        document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
+        document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
+        this.reset();
     }
 
     reset() {
@@ -19,12 +22,14 @@ export class Paddle extends Drawable {
     }
 
     update() {
-        if (this.rightPressed && this.x < this.maxWidth - this.width) {
+        if (this.rightPressed) {
             this.x += this.speed;
         }
-        else if (this.leftPressed && this.x > 0) {
+        else if (this.leftPressed) {
             this.x -= this.speed;
         }
+
+        this. x = clamp(this.x, 0, this.maxWidth - this.width);
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
@@ -33,5 +38,23 @@ export class Paddle extends Drawable {
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
+    }
+
+    keyDownHandler(e) {
+        if (e.keyCode == 39) {
+            this.rightPressed = true;
+        }
+        else if (e.keyCode == 37) {
+            this.leftPressed = true;
+        }
+    }
+
+    keyUpHandler(e) {
+        if (e.keyCode == 39) {
+            this.rightPressed = false;
+        }
+        else if (e.keyCode == 37) {
+            this.leftPressed = false;
+        }
     }
 }
