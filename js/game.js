@@ -18,38 +18,17 @@ const paddle = new Paddle(maxWidth, maxHeight, document);
 const bricks = new Bricks(brickRowCount, brickColumnCount, maxWidth);
 const player = new Player(maxWidth, paddle);
 
-const drawables = [ball, paddle, bricks, player];
-const updateables = [ball, paddle];
-
+const drawables = [bricks, player, ball, paddle];
 
 /** @type {WebGLRenderingContext} */
 const ctx = canvas.getContext("2d");
-ctx.scale(2,2);
+ctx.scale(2, 2);
 
 function draw() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
 
-    updateables.forEach(function (updateable) {
-        updateable.update();
-    });
-
-    
-    if (ball.y + ball.dy > maxHeight - ball.radius) {
-        if (ball.x > paddle.x && ball.x < paddle.x + Paddle.width) {
-            ball.dy = -ball.dy;
-        }
-        else {
-            player.lives--;
-            if (!player.lives) {
-                alert("GAME OVER");
-                document.location.reload();
-            }
-            else {
-                ball.reset();
-                paddle.reset();
-            }
-        }
-    }
+    paddle.update();
+    ball.update(paddle, ballOutOfBounds);
 
     collisionDetection();
 
@@ -58,6 +37,18 @@ function draw() {
     });
 
     requestAnimationFrame(draw);
+}
+
+function ballOutOfBounds() {
+    player.lives--;
+    if (!player.lives) {
+        alert("GAME OVER");
+        document.location.reload();
+    }
+    else {
+        ball.reset();
+        paddle.reset();
+    }
 }
 
 function collisionDetection() {
