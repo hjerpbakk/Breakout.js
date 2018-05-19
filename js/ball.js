@@ -1,5 +1,5 @@
 import { Drawable } from "./drawable.js";
-import { clamp, intersects, r2c } from "./helpers.js";
+import { clamp, r2c } from "./helpers.js";
 import { Paddle } from "./paddle.js";
 
 export class Ball extends Drawable {
