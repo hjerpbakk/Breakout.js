@@ -24,7 +24,7 @@ const drawables = [bricks, player, ball, paddle];
 const ctx = canvas.getContext("2d");
 ctx.scale(2, 2);
 
-function draw() {
+function gameLoop() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
 
     paddle.update();
@@ -70,4 +70,4 @@ function collisionDetection() {
     }
 }
 
-draw();
+gameLoop();
