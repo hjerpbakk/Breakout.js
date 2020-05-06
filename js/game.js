@@ -36,7 +36,7 @@ function gameLoop() {
         drawable.draw(ctx);
     });
 
-    requestAnimationFrame(draw);
+    requestAnimationFrame(gameLoop);
 }
 
 function ballOutOfBounds() {
