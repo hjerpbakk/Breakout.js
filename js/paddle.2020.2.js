@@ -12,6 +12,8 @@ export class Paddle extends Drawable {
         document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
         document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
         document.addEventListener("mousemove", this.mouseHandler.bind(this), false);
+        document.addEventListener("touchstart", this.touchHandler.bind(this), false);
+        document.addEventListener("touchmove", this.touchHandler.bind(this), false);
         this.reset();
     }
 
@@ -72,5 +74,10 @@ export class Paddle extends Drawable {
      */
     mouseHandler(e) { 
         this.x = e.pageX - this.canvas.offsetLeft - Paddle.width / 2;
+    }
+
+    touchHandler(e) {
+        this.x = e.touches[0].pageX - this.canvas.offsetLeft - Paddle.width / 2;
+        e.preventDefault();
     }
 }

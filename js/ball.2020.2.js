@@ -1,6 +1,6 @@
 import { Drawable } from "./drawable.js";
 import { clamp, r2c } from "./helpers.js";
-import { Paddle } from "./paddle.2020.1.js";
+import { Paddle } from "./paddle.2020.2.js";
 
 export class Ball extends Drawable {
     constructor(maxWidth, maxHeight) {
@@ -15,7 +15,7 @@ export class Ball extends Drawable {
     }
 
     static get speed() {
-        return 3;
+        return 0.5;
     }
 
     reset() {

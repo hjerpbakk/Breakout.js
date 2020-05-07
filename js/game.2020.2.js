@@ -1,5 +1,5 @@
-import { Ball } from './ball.2020.1.js';
-import { Paddle } from './paddle.2020.1.js';
+import { Ball } from './ball.2020.2.js';
+import { Paddle } from './paddle.2020.2.js';
 import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
 import { Player } from './player.js';
