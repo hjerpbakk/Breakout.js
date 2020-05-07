@@ -15,7 +15,7 @@ export class Ball extends Drawable {
     }
 
     static get speed() {
-        return 0.5;
+        return 3;
     }
 
     reset() {
