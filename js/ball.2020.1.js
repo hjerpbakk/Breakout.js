@@ -1,6 +1,6 @@
 import { Drawable } from "./drawable.js";
 import { clamp, r2c } from "./helpers.js";
-import { Paddle } from "./paddle.js";
+import { Paddle } from "./paddle.2020.1.js";
 
 export class Ball extends Drawable {
     constructor(maxWidth, maxHeight) {
