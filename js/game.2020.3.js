@@ -1,5 +1,5 @@
-import { Ball } from './ball.2020.2.js';
-import { Paddle } from './paddle.2020.2.js';
+import { Ball } from './ball.2020.3.js';
+import { Paddle } from './paddle.2020.3.js';
 import { Brick } from './brick.js';
 import { Bricks } from './bricks.js';
 import { Player } from './player.js';
@@ -55,7 +55,6 @@ function ballOutOfBounds() {
     player.lives--;
     if (!player.lives) {
         alert("GAME OVER");
-        // TODO: WHY "TypeError: document.location is null"
         document.location.reload();
     }
     else {

@@ -14,13 +14,19 @@
             display: block;
             margin: 0 auto;
         }
+        div#gamepad {
+            margin: 10px;
+            text-align: center;
+            line-height: 1em;
+        }
     </style>
 </head>
 <body>
     <h1>Breakout</h1>
     <p>
         <canvas id="myCanvas" width="480" height="360"></canvas>
-        <script type="module" src="/js/game.2020.2.js"></script>
+        <div id="gamepad">Press any button on your gamepad to connect</div>
+        <script type="module" src="/js/game.2020.3.js"></script>
     </p>
     <h2>Controls</h2>
     Move the paddle using: <br><br>
@@ -28,6 +34,7 @@
         <li>the ⬅️ and ➡️ keys on a ⌨️</li>
         <li>the cursor using a 🖱️or 🖲️</li>
         <li>your 👆</li>
+        <li>the 🕹 or the ⬅️ and ➡️ buttons on a 🎮</li>
     </ul>
 </body>
 </html>
