@@ -2,14 +2,16 @@ import { Drawable } from "./drawable.js";
 import { clamp } from "./helpers.js";
 
 export class Paddle extends Drawable {
-    constructor(maxWidth, maxHeight, document) {
+    constructor(maxWidth, maxHeight, document, canvas) {
         super();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
+        this.canvas = canvas;
         this.rightPressed = false;
         this.leftPressed = false;
         document.addEventListener("keydown", this.keyDownHandler.bind(this), false);
         document.addEventListener("keyup", this.keyUpHandler.bind(this), false);
+        document.addEventListener("mousemove", this.mouseHandler.bind(this), false);
         this.reset();
     }
 
@@ -33,8 +35,7 @@ export class Paddle extends Drawable {
     update() {
         if (this.rightPressed) {
             this.x += Paddle.speed;
-        }
-        else if (this.leftPressed) {
+        } else if (this.leftPressed) {
             this.x -= Paddle.speed;
         }
 
@@ -50,20 +51,26 @@ export class Paddle extends Drawable {
     }
 
     keyDownHandler(e) {
-        if (e.keyCode == 39) {
+        if (e.keyCode === 39) {
             this.rightPressed = true;
         }
-        else if (e.keyCode == 37) {
+        else if (e.keyCode === 37) {
             this.leftPressed = true;
         }
     }
 
     keyUpHandler(e) {
-        if (e.keyCode == 39) {
+        if (e.keyCode === 39) {
             this.rightPressed = false;
-        }
-        else if (e.keyCode == 37) {
+        } else if (e.keyCode === 37) {
             this.leftPressed = false;
         }
+    }
+
+    /**
+     * @param {MouseEvent} e
+     */
+    mouseHandler(e) { 
+        this.x = e.pageX - this.canvas.offsetLeft - Paddle.width / 2;
     }
 }
