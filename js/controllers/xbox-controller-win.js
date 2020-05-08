@@ -12,7 +12,7 @@ export class XboxControllerWin {
     }
 
     static get name() {
-        return "Xbox Controller";
+        return "Xbox controller";
     }
 
     static get supportButtons() {

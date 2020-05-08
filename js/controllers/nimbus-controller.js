@@ -1,21 +1,20 @@
 export class NimbusController {
-    static get left() {
-        return 8;
-    }
-
-    static get right() {
-        return 10;
+    constructor(numberOfButtons) {
+        const DefaultRightButton = 10;
+        if (numberOfButtons > DefaultRightButton) {
+            this.left = 8;
+            this.right = DefaultRightButton;
+            this.supportButtons = true;
+        } else {
+            this.supportButtons = false;
+        }
     }
 
     static get id() {
         return "Nimbus";
     }
 
-    static get name() {
-        return "Nimbus Controller";
-    }
-
-    static get supportButtons() {
-        return true;
+    get name() {
+        return "Nimbus controller";
     }
 }

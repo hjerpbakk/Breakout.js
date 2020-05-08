@@ -88,12 +88,12 @@ export class Paddle extends Drawable {
     gamepadConnected(e) {
         this.controller = e.gamepad;
         // Uncomment this to find the id of the controller
-        //console.log(this.controller);
+        console.log(this.controller);
 
         if (this.controller.id.includes(XboxController.id)) {
             this.controllerScheme = XboxController;
         } else if (this.controller.id.includes(NimbusController.id)) {
-            this.controllerScheme = NimbusController;
+            this.controllerScheme = new NimbusController(this.controller.buttons.length);
         } else if (this.controller.id.includes(PS4Controller.id)) {
             this.controllerScheme = new PS4Controller(this.controller.buttons.length);
         } else if (this.controller.id.includes(XboxControllerWin.id)) {
