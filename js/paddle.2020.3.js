@@ -4,6 +4,7 @@ import { XboxController } from "./controllers/xbox-controller.js";
 import { DefaultController } from "./controllers/default-controller.js";
 import { NimbusController } from "./controllers/nimbus-controller.js";
 import { PS4Controller } from "./controllers/ps4-controller.js";
+import { XboxControllerWin } from "./controllers/xbox-controller-win.js";
 
 export class Paddle extends Drawable {
     constructor(maxWidth, maxHeight, document, canvas) {
@@ -94,7 +95,9 @@ export class Paddle extends Drawable {
         } else if (this.controller.id.includes(NimbusController.id)) {
             this.controllerScheme = NimbusController;
         } else if (this.controller.id.includes(PS4Controller.id)) {
-            this.controllerScheme = PS4Controller;
+            this.controllerScheme = new PS4Controller(this.controller.buttons.length);
+        } else if (this.controller.id.includes(XboxControllerWin.id)) {
+            this.controllerScheme = XboxControllerWin;
         } else {
             this.controllerScheme = DefaultController;
         }
@@ -116,9 +119,9 @@ export class Paddle extends Drawable {
         navigator.getGamepads();
         if(this.controller.buttons) {
             const analogStick = this.controller.axes[0];
-            if (analogStick < -0.05) {
+            if (analogStick < -0.08) {
                 this.momentum = analogStick;
-            } else if (analogStick > 0.05) {
+            } else if (analogStick > 0.8) {
                 this.momentum = analogStick;
             } else {
                 this.momentum = 0;

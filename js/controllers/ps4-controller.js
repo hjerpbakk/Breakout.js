@@ -1,21 +1,24 @@
 export class PS4Controller {
-    static get left() {
-        return 16;
-    }
-
-    static get right() {
-        return 17;
+    constructor(numberOfButtons) {
+        const defaultRightButton = 17;
+        if (numberOfButtons > defaultRightButton) {
+            this.left = 14;
+            this.right = 15;
+        } else {
+            this.left = 16;
+            this.right = 17;
+        }
     }
 
     static get id() {
         return "Wireless Controller";
     }
 
-    static get name() {
+    get name() {
         return "PS4 Controller";
     }
 
-    static get supportButtons() {
+    get supportButtons() {
         return true;
     }
 }
