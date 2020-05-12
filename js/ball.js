@@ -1,6 +1,6 @@
 import { Drawable } from "./drawable.js";
 import { clamp, r2c } from "./helpers.js";
-import { Paddle } from "./paddle.2020.3.js";
+import { Paddle } from "./paddle.js";
 
 export class Ball extends Drawable {
     constructor(maxWidth, maxHeight) {
@@ -15,7 +15,7 @@ export class Ball extends Drawable {
     }
 
     static get speed() {
-        return 3;
+        return 8;
     }
 
     reset() {
@@ -25,7 +25,7 @@ export class Ball extends Drawable {
         this.dy = -Ball.speed;
     }
 
-    update(paddle, ballOutOfBounds) {
+    update(paddle) {
         this.x += this.dx;
         this.y += this.dy;
         if (this.y < Ball.radius) {
@@ -33,7 +33,7 @@ export class Ball extends Drawable {
         } else if (r2c(paddle.x, paddle.y, paddle.x + Paddle.width, paddle.y + Paddle.height, this.x, this.y, Ball.radius)) {
             this.dy = -Ball.speed;
         } else if (this.y + Ball.radius > this.maxHeight) {
-            ballOutOfBounds();
+            return true;
         }
 
         this.x = clamp(this.x, Ball.radius - 1, this.maxWidth - Ball.radius + 1);
@@ -41,6 +41,8 @@ export class Ball extends Drawable {
         if (this.x > this.maxWidth - Ball.radius || this.x < Ball.radius) {
             this.dx = -this.dx;
         }
+
+        return false;
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {

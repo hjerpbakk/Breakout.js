@@ -1,7 +1,7 @@
 import { Drawable } from "./drawable.js";
 
 export class Player extends Drawable {
-    constructor(maxWidth, paddle, document) {
+    constructor(maxWidth, paddle) {
         super();
         this.maxWidth = maxWidth;
         this.paddle = paddle;

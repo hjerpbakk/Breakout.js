@@ -7,7 +7,7 @@ import { PS4Controller } from "./controllers/ps4-controller.js";
 import { XboxControllerWin } from "./controllers/xbox-controller-win.js";
 
 export class Paddle extends Drawable {
-    constructor(maxWidth, maxHeight, document, canvas) {
+    constructor(maxWidth, maxHeight, canvas) {
         super();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
