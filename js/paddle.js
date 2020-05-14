@@ -15,7 +15,6 @@ export class Paddle extends Drawable {
         this.momentum = 0;
         this.controller = {};
         this.controllerScheme = {};
-        this.subscribeToInputEvents();
         this.reset();
     }
 

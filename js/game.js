@@ -1,4 +1,4 @@
-import { InGame } from './scenes/in-game.js';
+import { SceneManager } from './scene-manager.js';
 
 const canvas = document.getElementById("myCanvas");
 const maxWidth = 480;
@@ -25,22 +25,12 @@ ctx.scale(dpr, dpr);
 function gameLoop() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
    
-    const gameOver = currentScene.update();
+    const currentScene = sceneManager.getCurrentScene();
+    currentScene.update();
     currentScene.draw(ctx);
-
-    if (gameOver) {
-        currentScene.paddle.unsubscribeToInputEvents();
-        if (!currentScene.player.lives) {
-            alert("GAME OVER"); 
-        } else {
-            alert("YOU WIN, CONGRATULATIONS!");
-        }
-
-        currentScene = new InGame(canvas, maxWidth, maxHeight);
-    }
 
     requestAnimationFrame(gameLoop);
 }
 
-let currentScene = new InGame(canvas, maxWidth, maxHeight);
+const sceneManager = new SceneManager(canvas, maxWidth, maxHeight);
 gameLoop();

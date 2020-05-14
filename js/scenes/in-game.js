@@ -1,11 +1,11 @@
-import { Drawable } from "../drawable.js";
+import { Scene } from "./scene.js";
 import { Ball } from '../ball.js';
 import { Paddle } from '../paddle.js';
 import { Brick } from '../brick.js';
 import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
 
-export class InGame extends Drawable {
+export class InGame extends Scene {
     constructor(canvas, maxWidth, maxHeight) {
         super();
         this.brickRowCount = 6;
@@ -17,6 +17,7 @@ export class InGame extends Drawable {
         this.player = new Player(maxWidth, this.paddle);
 
         this.drawables = [this.bricks, this.player, this.ball, this.paddle];
+        this.paddle.subscribeToInputEvents();
     }
 
     update() {
@@ -24,23 +25,23 @@ export class InGame extends Drawable {
         const outOfBounds = this.ball.update(this.paddle);
         if (outOfBounds) {
             this.player.lives--;
-            if (!this.player.lives) {
-                return true;
-            }
-            else {
+            if (this.player.lives) {
                 this.ball.reset();
                 this.paddle.reset();
             }
         }
 
         this.collisionDetection();
-        return this.player.score === this.brickRowCount * this.brickColumnCount;
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         this.drawables.forEach(function (drawable) {
             drawable.draw(ctx);
         });
+    }
+
+    dispose() {
+        this.paddle.unsubscribeToInputEvents();
     }
 
     collisionDetection() {
