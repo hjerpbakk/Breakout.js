@@ -15,13 +15,7 @@ export class Paddle extends Drawable {
         this.momentum = 0;
         this.controller = {};
         this.controllerScheme = {};
-        document.addEventListener("keydown", this.keyDownHandler.bind(this));
-        document.addEventListener("keyup", this.keyUpHandler.bind(this));
-        document.addEventListener("mousemove", this.mouseHandler.bind(this));
-        document.addEventListener("touchstart", this.touchHandler.bind(this));
-        document.addEventListener("touchmove", this.touchHandler.bind(this));
-        window.addEventListener("gamepadconnected", this.gamepadConnected.bind(this));
-        window.addEventListener("gamepaddisconnected", this.gamepadDisconnected.bind(this));
+        this.subscribeToInputEvents();
         this.reset();
     }
 
@@ -36,6 +30,26 @@ export class Paddle extends Drawable {
     static get speed() {
         return 10;
     }
+
+    subscribeToInputEvents() {
+        document.addEventListener("keydown", this.keyDownHandler.bind(this));
+        document.addEventListener("keyup", this.keyUpHandler.bind(this));
+        document.addEventListener("mousemove", this.mouseHandler.bind(this));
+        document.addEventListener("touchstart", this.touchHandler.bind(this));
+        document.addEventListener("touchmove", this.touchHandler.bind(this));
+        window.addEventListener("gamepadconnected", this.gamepadConnected.bind(this));
+        window.addEventListener("gamepaddisconnected", this.gamepadDisconnected.bind(this));
+    }
+
+    unsubscribeToInputEvents() {
+        document.removeEventListener("keydown", this.keyDownHandler.bind(this));
+        document.removeEventListener("keyup", this.keyUpHandler.bind(this));
+        document.removeEventListener("mousemove", this.mouseHandler.bind(this));
+        document.removeEventListener("touchstart", this.touchHandler.bind(this));
+        document.removeEventListener("touchmove", this.touchHandler.bind(this));
+        window.removeEventListener("gamepadconnected", this.gamepadConnected.bind(this));
+        window.removeEventListener("gamepaddisconnected", this.gamepadDisconnected.bind(this));
+    }    
 
     reset() {
         this.x = (this.maxWidth - Paddle.width) / 2;

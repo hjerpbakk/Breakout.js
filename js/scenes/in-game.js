@@ -23,10 +23,18 @@ export class InGame extends Drawable {
         this.paddle.update();
         const outOfBounds = this.ball.update(this.paddle);
         if (outOfBounds) {
-            this.ballOutOfBounds();
+            this.player.lives--;
+            if (!this.player.lives) {
+                return true;
+            }
+            else {
+                this.ball.reset();
+                this.paddle.reset();
+            }
         }
 
         this.collisionDetection();
+        return this.player.score === this.brickRowCount * this.brickColumnCount;
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
@@ -44,25 +52,9 @@ export class InGame extends Drawable {
                         this.ball.dy = -this.ball.dy;
                         b.status = 0;
                         this.player.score++;
-                        if (this.player.score === this.brickRowCount * this.brickColumnCount) {
-                            alert("YOU WIN, CONGRATULATIONS!");
-                            document.location.reload();
-                        }
                     }
                 }
             }
-        }
-    }
-
-    ballOutOfBounds() {
-        this.player.lives--;
-        if (!this.player.lives) {
-            alert("GAME OVER");
-            document.location.reload();
-        }
-        else {
-            this.ball.reset();
-            this.paddle.reset();
         }
     }
 }

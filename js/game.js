@@ -25,12 +25,22 @@ ctx.scale(dpr, dpr);
 function gameLoop() {
     ctx.clearRect(0, 0, maxWidth, maxHeight);
    
-    inGame.update();
+    const gameOver = currentScene.update();
+    currentScene.draw(ctx);
 
-    inGame.draw(ctx);
+    if (gameOver) {
+        currentScene.paddle.unsubscribeToInputEvents();
+        if (!currentScene.player.lives) {
+            alert("GAME OVER"); 
+        } else {
+            alert("YOU WIN, CONGRATULATIONS!");
+        }
+
+        currentScene = new InGame(canvas, maxWidth, maxHeight);
+    }
 
     requestAnimationFrame(gameLoop);
 }
 
-const inGame = new InGame(canvas, maxWidth, maxHeight);
+let currentScene = new InGame(canvas, maxWidth, maxHeight);
 gameLoop();
