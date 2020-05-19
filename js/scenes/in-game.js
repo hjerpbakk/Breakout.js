@@ -16,7 +16,7 @@ export class InGame extends Scene {
         this.ball = new Ball(maxWidth, maxHeight, level);
         this.paddle = new Paddle(maxWidth, maxHeight, canvas);
         this.bricks = new Bricks(this.brickRowCount, this.brickColumnCount, maxWidth);
-        this.player = new Player(maxWidth, this.paddle, startScore, startLives);
+        this.player = new Player(maxWidth, this.paddle, level, startScore, startLives);
 
         this.drawables = [this.bricks, this.player, this.ball, this.paddle];
         this.paddle.subscribeToInputEvents();
