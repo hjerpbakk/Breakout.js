@@ -3,10 +3,11 @@ import { clamp, r2c } from "./helpers.js";
 import { Paddle } from "./paddle.js";
 
 export class Ball extends Drawable {
-    constructor(maxWidth, maxHeight) {
+    constructor(maxWidth, maxHeight, level) {
         super();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
+        this.speed = 3 + level
         this.reset();
     }
 
@@ -14,24 +15,20 @@ export class Ball extends Drawable {
         return 6;
     }
 
-    static get speed() {
-        return 3;
-    }
-
     reset() {
         this.x = (this.maxWidth - Ball.radius) / 2;
         this.y = this.maxHeight - Ball.radius + 1 - Paddle.height * 2;
-        this.dx = Ball.speed;
-        this.dy = -Ball.speed;
+        this.dx = this.speed;
+        this.dy = -this.speed;
     }
 
     update(paddle) {
         this.x += this.dx;
         this.y += this.dy;
         if (this.y < Ball.radius) {
-            this.dy = Ball.speed;
+            this.dy = this.speed;
         } else if (r2c(paddle.x, paddle.y, paddle.x + Paddle.width, paddle.y + Paddle.height, this.x, this.y, Ball.radius)) {
-            this.dy = -Ball.speed;
+            this.dy = -this.speed;
         } else if (this.y + Ball.radius > this.maxHeight) {
             return true;
         }

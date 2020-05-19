@@ -17,8 +17,9 @@ export class SceneManager {
             case InGame:
                 if (!this.currentScene.player.lives) {
                     this.changeScene(new GameOver());
-                } else if (this.currentScene.player.score === this.currentScene.brickRowCount * this.currentScene.brickColumnCount) {
-                    this.changeScene(new Victory());
+                } else if (this.currentScene.remainingBricks === 0) {
+                    this.level++;
+                    this.createNewGame(this.currentScene.player.score, this.currentScene.player.lives);
                 }
 
                 break;
@@ -28,7 +29,8 @@ export class SceneManager {
                 break;
             case MainMenu:
                 if (this.currentScene.newGame) {
-                    this.changeScene(new InGame(this.canvas, this.maxWidth, this.maxHeight));
+                    this.level = 0
+                    this.createNewGame(0, 3);
                 }
 
                 break;
@@ -40,5 +42,9 @@ export class SceneManager {
     changeScene(newScene) {
         this.currentScene.dispose();
         this.currentScene = newScene;
+    }
+
+    createNewGame(startScore, startLives) {
+        this.changeScene(new InGame(this.canvas, this.maxWidth, this.maxHeight, this.level, startScore, startLives));
     }
 }

@@ -1,12 +1,12 @@
 import { Drawable } from "./drawable.js";
 
 export class Player extends Drawable {
-    constructor(maxWidth, paddle) {
+    constructor(maxWidth, paddle, startScore, startLives) {
         super();
         this.maxWidth = maxWidth;
         this.paddle = paddle;
-        this.score = 0;
-        this.lives = 3;
+        this.score = startScore;
+        this.lives = startLives;
         this.highScoreKey = "HighScore";
         this.highScore = Number(localStorage.getItem(this.highScoreKey));
     }

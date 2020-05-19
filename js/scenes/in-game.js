@@ -6,16 +6,17 @@ import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
 
 export class InGame extends Scene {
-    constructor(canvas, maxWidth, maxHeight) {
+    constructor(canvas, maxWidth, maxHeight, level, startScore, startLives) {
         super();
         this.canvas = canvas;
         this.brickRowCount = 6;
         this.brickColumnCount = 7;
+        this.remainingBricks = this.brickRowCount * this.brickColumnCount;
 
-        this.ball = new Ball(maxWidth, maxHeight);
+        this.ball = new Ball(maxWidth, maxHeight, level);
         this.paddle = new Paddle(maxWidth, maxHeight, canvas);
         this.bricks = new Bricks(this.brickRowCount, this.brickColumnCount, maxWidth);
-        this.player = new Player(maxWidth, this.paddle);
+        this.player = new Player(maxWidth, this.paddle, startScore, startLives);
 
         this.drawables = [this.bricks, this.player, this.ball, this.paddle];
         this.paddle.subscribeToInputEvents();
@@ -55,6 +56,7 @@ export class InGame extends Scene {
                         this.ball.dy = -this.ball.dy;
                         b.status = 0;
                         this.player.increaseScore();
+                        this.remainingBricks--;
                     }
                 }
             }
