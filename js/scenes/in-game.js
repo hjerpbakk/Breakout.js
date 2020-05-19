@@ -54,7 +54,7 @@ export class InGame extends Scene {
                     if (this.ball.x > b.x && this.ball.x < b.x + Brick.width && this.ball.y > b.y && this.ball.y < b.y + Brick.height) {
                         this.ball.dy = -this.ball.dy;
                         b.status = 0;
-                        this.player.score++;
+                        this.player.increaseScore();
                     }
                 }
             }
