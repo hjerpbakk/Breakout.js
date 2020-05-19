@@ -8,6 +8,7 @@ import { Player } from '../player.js';
 export class InGame extends Scene {
     constructor(canvas, maxWidth, maxHeight) {
         super();
+        this.canvas = canvas;
         this.brickRowCount = 6;
         this.brickColumnCount = 7;
 
@@ -35,6 +36,7 @@ export class InGame extends Scene {
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
+        this.canvas.style.cursor = "none";
         this.drawables.forEach(function (drawable) {
             drawable.draw(ctx);
         });

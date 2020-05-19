@@ -5,7 +5,6 @@ const maxWidth = 480;
 const maxHeight = 360;
 canvas.style.width = canvas.width + "px";
 canvas.style.height = canvas.height + "px";
-canvas.style.cursor = "none";
 
 // Scale for retina
 // Get the device pixel ratio, falling back to 1.
@@ -32,5 +31,5 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-const sceneManager = new SceneManager(canvas, maxWidth, maxHeight);
+const sceneManager = new SceneManager(canvas, maxWidth, maxHeight, dpr);
 gameLoop();
