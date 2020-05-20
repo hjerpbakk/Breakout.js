@@ -31,9 +31,9 @@ export class InGame extends Scene {
                 this.ball.reset();
                 this.paddle.reset();
             }
+        } else {
+            this.collisionDetection();
         }
-
-        this.collisionDetection();
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
