@@ -1,10 +1,10 @@
 import { Drawable } from "./drawable.js";
 import { clamp } from "./helpers.js";
-import { XboxController } from "./controllers/xbox-controller.js";
-import { DefaultController } from "./controllers/default-controller.js";
-import { NimbusController } from "./controllers/nimbus-controller.js";
-import { PS4Controller } from "./controllers/ps4-controller.js";
-import { XboxControllerWin } from "./controllers/xbox-controller-win.js";
+import { XboxController } from "./controllers/gamepad-mappings/xbox-controller.js";
+import { DefaultController } from "./controllers/gamepad-mappings/default-controller.js";
+import { NimbusController } from "./controllers/gamepad-mappings/nimbus-controller.js";
+import { PS4Controller } from "./controllers/gamepad-mappings/ps4-controller.js";
+import { XboxControllerWin } from "./controllers/gamepad-mappings/xbox-controller-win.js";
 
 export class Paddle extends Drawable {
     constructor(maxWidth, maxHeight, canvas, color) {
