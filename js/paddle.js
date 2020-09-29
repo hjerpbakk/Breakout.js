@@ -90,6 +90,7 @@ export class Paddle extends Drawable {
      * @param {MouseEvent} e
      */
     mouseHandler(e) { 
+        e.preventDefault();
         this.x = e.pageX - this.canvas.offsetLeft - Paddle.width / 2;
     }
 
