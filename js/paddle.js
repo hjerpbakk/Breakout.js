@@ -7,12 +7,13 @@ import { PS4Controller } from "./controllers/gamepad-mappings/ps4-controller.js"
 import { XboxControllerWin } from "./controllers/gamepad-mappings/xbox-controller-win.js";
 
 export class Paddle extends Drawable {
-    constructor(maxWidth, maxHeight, canvas, color) {
+    constructor(maxWidth, maxHeight, canvas, color, controlScheme) {
         super();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.canvas = canvas;
         this.color = color;
+        this.controlScheme = controlScheme;
         this.momentum = 0;
         this.controller = {};
         this.controllerScheme = {};
@@ -32,8 +33,7 @@ export class Paddle extends Drawable {
     }
 
     subscribeToInputEvents() {
-        document.addEventListener("keydown", this.keyDownHandler.bind(this));
-        document.addEventListener("keyup", this.keyUpHandler.bind(this));
+        this.controlScheme.subscribeToInputEvents();
         document.addEventListener("mousemove", this.mouseHandler.bind(this));
         document.addEventListener("touchstart", this.touchHandler.bind(this));
         document.addEventListener("touchmove", this.touchHandler.bind(this));
@@ -42,8 +42,7 @@ export class Paddle extends Drawable {
     }
 
     unsubscribeToInputEvents() {
-        document.removeEventListener("keydown", this.keyDownHandler.bind(this));
-        document.removeEventListener("keyup", this.keyUpHandler.bind(this));
+        this.controlScheme.unsubscribeToInputEvents();
         document.removeEventListener("mousemove", this.mouseHandler.bind(this));
         document.removeEventListener("touchstart", this.touchHandler.bind(this));
         document.removeEventListener("touchmove", this.touchHandler.bind(this));
@@ -57,8 +56,13 @@ export class Paddle extends Drawable {
     }
 
     update() {
-        this.gamepadUpdateHandler();
-        this.x += Paddle.speed * this.momentum;
+        // TODO: implement as controller:
+        // - mouse
+        // - touch
+        // - gamepads
+        //this.gamepadUpdateHandler();
+        const momentum = this.controlScheme.update();
+        this.x += Paddle.speed * momentum;
         this.x = clamp(this.x, 0, this.maxWidth - Paddle.width);
     }
 
@@ -68,23 +72,6 @@ export class Paddle extends Drawable {
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
-    }
-
-    keyDownHandler(e) {
-        if (e.keyCode === 39) {
-            this.momentum = 1;
-        }
-        else if (e.keyCode === 37) {
-            this.momentum = -1;
-        }
-    }
-
-    keyUpHandler(e) {
-        if (e.keyCode === 39 && this.momentum === 1) {
-            this.momentum = 0;
-        } else if (e.keyCode === 37 && this.momentum === -1) {
-            this.momentum = 0;
-        }
     }
 
     /**
@@ -103,7 +90,7 @@ export class Paddle extends Drawable {
     gamepadConnected(e) {
         this.controller = e.gamepad;
         // Uncomment this to find the id of the controller
-        console.log(this.controller);
+        //console.log(this.controller);
 
         if (this.controller.id.includes(XboxController.id)) {
             this.controllerScheme = XboxController;
