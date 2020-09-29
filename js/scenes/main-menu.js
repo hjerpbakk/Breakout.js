@@ -29,16 +29,16 @@ export class MainMenu extends Scene {
         text = "New Game";
         w = ctx.measureText(text).width;
         
-        this.path = new Path2D();
-        this.path.rect(this.maxWidth / 2 - w / 2 - 10, this.maxHeight / 2 - ((16 * this.dpr) / 2) - 5, w + 20, 16 * this.dpr);
-        this.path.closePath();
+        this.newGamePath = new Path2D();
+        this.newGamePath.rect(this.maxWidth / 2 - w / 2 - 10, this.maxHeight / 2 - ((16 * this.dpr) / 2) - 5, w + 20, 16 * this.dpr);
+        this.newGamePath.closePath();
 
         ctx.fillStyle = "#FFFFFF";
         ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.path);
+        ctx.fill(this.newGamePath);
         ctx.lineWidth = 2;
         ctx.strokeStyle = "#000000";
-        ctx.stroke(this.path);
+        ctx.stroke(this.newGamePath);
 
         ctx.fillStyle = "black";
         ctx.fillText(text, this.maxWidth / 2 - w / 2, this.maxHeight / 2);
@@ -67,14 +67,14 @@ export class MainMenu extends Scene {
 
     clickedHandler(e) {
       const XY = this.getXY(e);
-      if(this.ctx.isPointInPath(this.path, XY.x, XY.y)) {
+      if(this.ctx.isPointInPath(this.newGamePath, XY.x, XY.y)) {
         this.newGame = true;
       }
     }
 
     moveHandler(e) {
       const XY = this.getXY(e);
-      if(this.ctx.isPointInPath(this.path, XY.x, XY.y)) {
+      if(this.ctx.isPointInPath(this.newGamePath, XY.x, XY.y)) {
         this.canvas.style.cursor = "pointer";
       } else {
         this.canvas.style.cursor = "default";
