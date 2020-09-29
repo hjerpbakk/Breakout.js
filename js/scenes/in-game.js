@@ -14,7 +14,7 @@ export class InGame extends Scene {
         this.remainingBricks = this.brickRowCount * this.brickColumnCount;
 
         this.ball = new Ball(maxWidth, maxHeight, level);
-        this.paddle = new Paddle(maxWidth, maxHeight, canvas);
+        this.paddle = new Paddle(maxWidth, maxHeight, canvas, 'black');
         this.bricks = new Bricks(this.brickRowCount, this.brickColumnCount, maxWidth);
         this.player = new Player(maxWidth, this.paddle, level, startScore, startLives);
 

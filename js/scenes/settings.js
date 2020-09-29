@@ -1,17 +1,16 @@
 import { Scene } from "./scene.js";
 
-export class MainMenu extends Scene {
-    constructor(canvas, maxWidth, maxHeight, dpr) {
+export class Settings extends Scene {
+    constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
         super();
         this.canvas = canvas;
         this.canvas.style.cursor = "default";
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.dpr = dpr;
+        this.buttonWidth = buttonWidth;
         this.subscribeToInputEvents();
-        this.singlePlayer = false;
-        this.localCoop = false;
-        this.settings = false;
+        this.returnToMainMenu = false;
     }
 
     update() {
@@ -25,41 +24,13 @@ export class MainMenu extends Scene {
 
         ctx.font = "Bold 32px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         ctx.fillStyle = "black";
-        let text = "Breakout";
+        let text = "Settings";
         const titleWidth = ctx.measureText(text).width;
         ctx.fillText(text, this.maxWidth / 2 - titleWidth / 2, this.maxHeight / 2 - 90);
 
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
 
-        text = "Single Player";
-        this.buttonWidth = ctx.measureText(text).width;
-        this.singlePlayerPath = new Path2D();
-        this.singlePlayerPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, this.maxHeight / 2 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
-        this.singlePlayerPath.closePath();
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.singlePlayerPath);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#000000";
-        ctx.stroke(this.singlePlayerPath);
-        ctx.fillStyle = "black";
-        ctx.fillText(text, this.maxWidth / 2 - this.buttonWidth / 2, this.maxHeight / 2);
-
-        text = "Local Co-op";
-        const coopWidth = ctx.measureText(text).width;
-        this.localCoopPath = new Path2D();
-        this.localCoopPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
-        this.localCoopPath.closePath();
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.localCoopPath);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#000000";
-        ctx.stroke(this.localCoopPath);
-        ctx.fillStyle = "black";
-        ctx.fillText(text, this.maxWidth / 2 - coopWidth / 2, (this.maxHeight / 2) + menuSpacing);
-
-        text = "Settings";
+        text = "Confirm";
         const settingsWidth = ctx.measureText(text).width;
         this.settingsPath = new Path2D();
         this.settingsPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
@@ -97,20 +68,14 @@ export class MainMenu extends Scene {
 
     clickedHandler(e) {
       const XY = this.getXY(e);
-      if(this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y)) {
-        this.singlePlayer = true;
-      } else if (this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
-        this.localCoop = true;
-      } else if (this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
-        this.settings = true;
+      if (this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
+        this.returnToMainMenu = true;
       }
     }
 
     moveHandler(e) {
       const XY = this.getXY(e);
-      if(this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y) ||
-         this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y) ||
-         this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
+      if(this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
         this.canvas.style.cursor = "pointer";
       } else {
         this.canvas.style.cursor = "default";

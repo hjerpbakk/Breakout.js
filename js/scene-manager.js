@@ -2,6 +2,7 @@ import { InGame } from './scenes/in-game.js';
 import { GameOver } from './scenes/game-over.js';
 import { Victory } from './scenes/victory.js';
 import { MainMenu } from './scenes/main-menu.js';
+import { Settings } from './scenes/settings.js';
 
 export class SceneManager {
     constructor(canvas, maxWidth, maxHeight, dpr) {
@@ -25,12 +26,23 @@ export class SceneManager {
                 break;
             case GameOver:
             case Victory:
-                this.changeScene(new MainMenu(this.canvas, this.maxWidth, this.maxHeight, this.dpr));
+                this.createMainMenu();
                 break;
             case MainMenu:
-                if (this.currentScene.newGame) {
+                if (this.currentScene.singlePlayer) {
                     this.level = 0
                     this.createNewGame(0, 3);
+                } else if (this.currentScene.localCoop) {
+                    this.level = 0
+                    this.createNewGame(0, 1);
+                } else if (this.currentScene.settings) {
+                    this.changeScene(new Settings(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.currentScene.buttonWidth));
+                }
+
+                break;
+            case Settings:
+                if (this.currentScene.returnToMainMenu) {
+                    this.createMainMenu();
                 }
 
                 break;
@@ -46,5 +58,9 @@ export class SceneManager {
 
     createNewGame(startScore, startLives) {
         this.changeScene(new InGame(this.canvas, this.maxWidth, this.maxHeight, this.level, startScore, startLives));
+    }
+
+    createMainMenu() {
+        this.changeScene(new MainMenu(this.canvas, this.maxWidth, this.maxHeight, this.dpr));
     }
 }

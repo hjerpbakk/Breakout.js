@@ -7,11 +7,12 @@ import { PS4Controller } from "./controllers/ps4-controller.js";
 import { XboxControllerWin } from "./controllers/xbox-controller-win.js";
 
 export class Paddle extends Drawable {
-    constructor(maxWidth, maxHeight, canvas) {
+    constructor(maxWidth, maxHeight, canvas, color) {
         super();
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.canvas = canvas;
+        this.color = color;
         this.momentum = 0;
         this.controller = {};
         this.controllerScheme = {};
@@ -64,7 +65,7 @@ export class Paddle extends Drawable {
     draw(/** @type {WebGLRenderingContext} */ ctx) {
         ctx.beginPath();
         ctx.rect(this.x, this.y, Paddle.width, Paddle.height);
-        ctx.fillStyle = "black";
+        ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
     }
