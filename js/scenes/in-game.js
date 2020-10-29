@@ -5,6 +5,7 @@ import { Brick } from '../brick.js';
 import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
 import { Keyboard } from "../controllers/keyboard.js";
+import { Mouse } from "../controllers/mouse.js";
 
 export class InGame extends Scene {
     constructor(canvas, maxWidth, maxHeight, level, startScore, startLives) {
@@ -15,7 +16,7 @@ export class InGame extends Scene {
         this.remainingBricks = this.brickRowCount * this.brickColumnCount;
 
         this.ball = new Ball(maxWidth, maxHeight, level);
-        this.paddle = new Paddle(maxWidth, maxHeight, canvas, 'black', new Keyboard(37, 39));
+        this.paddle = new Paddle(maxWidth, maxHeight, canvas, 'black', /*new Keyboard(37, 39)*/new Mouse(canvas, maxWidth));
         this.bricks = new Bricks(this.brickRowCount, this.brickColumnCount, maxWidth);
         this.player = new Player(maxWidth, this.paddle, level, startScore, startLives);
 
@@ -38,7 +39,7 @@ export class InGame extends Scene {
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
-        this.canvas.style.cursor = "none";
+        //this.canvas.style.cursor = "none";
         this.drawables.forEach(function (drawable) {
             drawable.draw(ctx);
         });

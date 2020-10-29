@@ -34,7 +34,6 @@ export class Paddle extends Drawable {
 
     subscribeToInputEvents() {
         this.controlScheme.subscribeToInputEvents();
-        document.addEventListener("mousemove", this.mouseHandler.bind(this));
         document.addEventListener("touchstart", this.touchHandler.bind(this));
         document.addEventListener("touchmove", this.touchHandler.bind(this));
         window.addEventListener("gamepadconnected", this.gamepadConnected.bind(this));
@@ -43,7 +42,6 @@ export class Paddle extends Drawable {
 
     unsubscribeToInputEvents() {
         this.controlScheme.unsubscribeToInputEvents();
-        document.removeEventListener("mousemove", this.mouseHandler.bind(this));
         document.removeEventListener("touchstart", this.touchHandler.bind(this));
         document.removeEventListener("touchmove", this.touchHandler.bind(this));
         window.removeEventListener("gamepadconnected", this.gamepadConnected.bind(this));
@@ -57,11 +55,15 @@ export class Paddle extends Drawable {
 
     update() {
         // TODO: implement as controller:
-        // - mouse
         // - touch
         // - gamepads
         //this.gamepadUpdateHandler();
-        const momentum = this.controlScheme.update();
+
+        // TODO: Create player <-> inputmanger and standardize update call here...
+        // FOR Mouse
+        const momentum = this.controlScheme.update(this.x);
+        // FOR Keyboard
+        //const momentum = this.controlScheme.update();
         this.x += Paddle.speed * momentum;
         this.x = clamp(this.x, 0, this.maxWidth - Paddle.width);
     }
@@ -72,14 +74,6 @@ export class Paddle extends Drawable {
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
-    }
-
-    /**
-     * @param {MouseEvent} e
-     */
-    mouseHandler(e) { 
-        e.preventDefault();
-        this.x = e.pageX - this.canvas.offsetLeft - Paddle.width / 2;
     }
 
     touchHandler(e) {
