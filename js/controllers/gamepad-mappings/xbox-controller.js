@@ -1,14 +1,14 @@
 export class XboxController {
     static get left() {
-        return 17;
+        return [17];
     }
 
     static get right() {
-        return 18;
+        return [18];
     }
 
     static get id() {
-        return "Xbox";
+        return "xbox";
     }
 
     static get name() {

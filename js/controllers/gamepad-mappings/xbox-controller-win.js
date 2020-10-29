@@ -1,10 +1,10 @@
 export class XboxControllerWin {
     static get left() {
-        return 14;
+        return [14];
     }
 
     static get right() {
-        return 15;
+        return [15];
     }
 
     static get id() {

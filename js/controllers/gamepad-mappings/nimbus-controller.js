@@ -2,8 +2,8 @@ export class NimbusController {
     constructor(numberOfButtons) {
         const DefaultRightButton = 10;
         if (numberOfButtons > DefaultRightButton) {
-            this.left = 8;
-            this.right = DefaultRightButton;
+            this.left = [8];
+            this.right = [DefaultRightButton];
             this.supportButtons = true;
         } else {
             this.supportButtons = false;
@@ -11,7 +11,7 @@ export class NimbusController {
     }
 
     static get id() {
-        return "Nimbus";
+        return "nimbus";
     }
 
     get name() {
