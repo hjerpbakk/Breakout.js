@@ -145,8 +145,6 @@ export class Paddle extends Drawable {
                 //    }
                 //}
 
-                console.log(this.controller.buttons);
-
                 const pressed = (button) =>  button < this.controller.buttons.length && this.controller.buttons[button].pressed;
                 if(this.controllerScheme.left.some(pressed)) {
                     return -1;
