@@ -58,20 +58,6 @@ export class MainMenu extends Scene {
         ctx.stroke(this.localCoopPath);
         ctx.fillStyle = "black";
         ctx.fillText(text, this.maxWidth / 2 - coopWidth / 2, (this.maxHeight / 2) + menuSpacing);
-
-        text = "Settings";
-        const settingsWidth = ctx.measureText(text).width;
-        this.settingsPath = new Path2D();
-        this.settingsPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
-        this.settingsPath.closePath();
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.settingsPath);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "#000000";
-        ctx.stroke(this.settingsPath);
-        ctx.fillStyle = "black";
-        ctx.fillText(text, this.maxWidth / 2 - settingsWidth / 2, (this.maxHeight / 2) + menuSpacing * 3);
     }
 
     dispose() {
@@ -101,16 +87,13 @@ export class MainMenu extends Scene {
         this.singlePlayer = true;
       } else if (this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
         this.localCoop = true;
-      } else if (this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
-        this.settings = true;
       }
     }
 
     moveHandler(e) {
       const XY = this.getXY(e);
       if(this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y) ||
-         this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y) ||
-         this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
+         this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
         this.canvas.style.cursor = "pointer";
       } else {
         this.canvas.style.cursor = "default";

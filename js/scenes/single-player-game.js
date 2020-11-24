@@ -6,17 +6,21 @@ import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
 import { Keyboard } from "../controllers/keyboard.js";
 import { Mouse } from "../controllers/mouse.js";
+import { Gamepad } from "../controllers/gamepad.js";
 
-export class InGame extends Scene {
-    constructor(canvas, maxWidth, maxHeight, level, startScore, startLives) {
+export class SinglePlayerGame extends Scene {
+    constructor(canvas, maxWidth, maxHeight, level, startScore, startLives, control) {
         super();
         this.canvas = canvas;
+        this.maxWidth = maxWidth;
+
         this.brickRowCount = 6;
         this.brickColumnCount = 7;
         this.remainingBricks = this.brickRowCount * this.brickColumnCount;
 
         this.ball = new Ball(maxWidth, maxHeight, level);
-        this.paddle = new Paddle(maxWidth, maxHeight, canvas, 'black', /*new Keyboard(37, 39)*/new Mouse(canvas, maxWidth));
+        const controlScheme = this.createControlScheme(control);
+        this.paddle = new Paddle(maxWidth, maxHeight, canvas, 'black', controlScheme);
         this.bricks = new Bricks(this.brickRowCount, this.brickColumnCount, maxWidth);
         this.player = new Player(maxWidth, this.paddle, level, startScore, startLives);
 
@@ -39,7 +43,6 @@ export class InGame extends Scene {
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
-        //this.canvas.style.cursor = "none";
         this.drawables.forEach(function (drawable) {
             drawable.draw(ctx);
         });
@@ -47,6 +50,17 @@ export class InGame extends Scene {
 
     dispose() {
         this.paddle.unsubscribeToInputEvents();
+    }
+
+    createControlScheme(control) {
+        switch (control) {
+            case "⌨️":
+                return new Keyboard(37, 39);
+            case "🖱️":
+                return new Mouse(this.canvas, this.maxWidth);
+            case "🎮":
+                return new Gamepad();
+        }
     }
 
     collisionDetection() {

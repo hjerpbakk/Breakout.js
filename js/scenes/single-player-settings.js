@@ -1,6 +1,6 @@
 import { Scene } from "./scene.js";
 
-export class Settings extends Scene {
+export class SinglePlayerSettings extends Scene {
     constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
         super();
         this.canvas = canvas;
@@ -10,7 +10,8 @@ export class Settings extends Scene {
         this.dpr = dpr;
         this.buttonWidth = buttonWidth;
         this.subscribeToInputEvents();
-        this.returnToMainMenu = false;
+        this.singlePlayer = false;
+        this.control = "⌨️";
     }
 
     update() {
@@ -24,7 +25,7 @@ export class Settings extends Scene {
 
         ctx.font = "Bold 32px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         ctx.fillStyle = "black";
-        let text = "Settings";
+        let text = "Single Player";
         const titleWidth = ctx.measureText(text).width;
         ctx.fillText(text, this.maxWidth / 2 - titleWidth / 2, this.maxHeight / 2 - 90);
 
@@ -32,36 +33,31 @@ export class Settings extends Scene {
         ctx.font = `Bold ${this.controllerFontSize}px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu`;
         
         ctx.fillStyle = "black";
-        ctx.fillText("Player 1", 30, this.maxHeight / 2 - 30);
-        this.addControlButton("⌨️", 30, this.maxHeight / 2 + 10, true);
-        this.addControlButton("🖱️", 63, this.maxHeight / 2 + 10, true);
-        this.addControlButton("🎮", 96, this.maxHeight / 2 + 10, true);
-        text = "Player 2";
-        const player2Width = ctx.measureText(text).width;
-        ctx.fillStyle = "black";
-        ctx.fillText(text, this.maxWidth - player2Width - 30, this.maxHeight / 2 - 30);
-        this.addControlButton("⌨️‎", this.maxWidth - player2Width - 30, this.maxHeight / 2 + 10, false);
-        this.addControlButton("🖱️‎", this.maxWidth - player2Width + 3, this.maxHeight / 2 + 10, false);
-        this.addControlButton("🎮‎", this.maxWidth - player2Width + 36, this.maxHeight / 2 + 10, false);
+        text = "Player 1";
+        const p1X = this.maxWidth / 2 - ctx.measureText(text).width / 2;
+        ctx.fillText(text, p1X, this.maxHeight / 2 - 30);
+        this.addControlButton("⌨️", p1X, this.maxHeight / 2 + 10);
+        this.addControlButton("🖱️", p1X + 33, this.maxHeight / 2 + 10);
+        this.addControlButton("🎮", p1X + 66, this.maxHeight / 2 + 10);
 
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
 
-        text = "Confirm";
+        text = "Let's go!";
         const settingsWidth = ctx.measureText(text).width;
-        this.settingsPath = new Path2D();
-        this.settingsPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
-        this.settingsPath.closePath();
+        this.startGamePath = new Path2D();
+        this.startGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+        this.startGamePath.closePath();
         ctx.fillStyle = "#FFFFFF";
         ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.settingsPath);
+        ctx.fill(this.startGamePath);
         ctx.lineWidth = 2;
         ctx.strokeStyle = "#000000";
-        ctx.stroke(this.settingsPath);
+        ctx.stroke(this.startGamePath);
         ctx.fillStyle = "black";
         ctx.fillText(text, this.maxWidth / 2 - settingsWidth / 2, (this.maxHeight / 2) + menuSpacing * 3);
     }
 
-    addControlButton(text, x, y, isPlayer1) {
+    addControlButton(text, x, y) {
       this.ctx.fillStyle = "black";
       this.ctx.fillText(text, x, y);
       const measuredWidth = this.ctx.measureText(text).width;
@@ -71,14 +67,14 @@ export class Settings extends Scene {
       this.ctx.fillStyle = "#FFFFFF00";
       this.ctx.fill(path);
       this.ctx.lineWidth = 2;
-      if (text === this.getPlayer1Control() || text === this.getPlayer2Control()) {
+      if (text === this.getPlayer1Control()) {
         this.ctx.strokeStyle = "green";
       } else {
         this.ctx.strokeStyle = "#00000000";
       }
       
       this.ctx.stroke(path);
-      this.controllers.push({path: path, control: text, isPlayer1: isPlayer1});
+      this.controllers.push({path: path, control: text, isPlayer1: true});
     }
 
     dispose() {
@@ -104,21 +100,14 @@ export class Settings extends Scene {
 
     clickedHandler(e) {
       const XY = this.getXY(e);
-      if (this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y)) {
-        this.returnToMainMenu = true;
+      if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y)) {
+        this.singlePlayer = true;
         return;
       }
 
       this.controllers.forEach(control => {
         if (this.ctx.isPointInPath(control.path, XY.x, XY.y)) {
-          // Invisible space FTW
-          const player2Marker = "‎";
-          if (control.control.includes(player2Marker)) {
-            this.setPlayer2Control(control.control);
-          } else {
-            this.setPlayer1Control(control.control);
-          }
-
+          this.setPlayer1Control(control.control);
           return;
         }
       });
@@ -126,7 +115,7 @@ export class Settings extends Scene {
 
     moveHandler(e) {
       const XY = this.getXY(e);
-      if(this.ctx.isPointInPath(this.settingsPath, XY.x, XY.y) || this.controllers.some((p) => this.ctx.isPointInPath(p.path, XY.x, XY.y))) {
+      if(this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y) || this.controllers.some((p) => this.ctx.isPointInPath(p.path, XY.x, XY.y))) {
         this.canvas.style.cursor = "pointer";
       } else {
         this.canvas.style.cursor = "default";
@@ -134,18 +123,11 @@ export class Settings extends Scene {
     }
 
     getPlayer1Control() {
-      return localStorage.getItem("Player1Control") ?? "⌨️";
-    }
-
-    getPlayer2Control() {
-      return localStorage.getItem("Player2Control") ?? "🖱️‎";
+      this.control = localStorage.getItem("Player1Control") ?? "⌨️";
+      return this.control;
     }
 
     setPlayer1Control(control) {
       localStorage.setItem("Player1Control", control);
-    }
-
-    setPlayer2Control(control) {
-      localStorage.setItem("Player2Control", control);
     }
 }
