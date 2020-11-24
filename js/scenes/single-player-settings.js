@@ -1,4 +1,5 @@
 import { Scene } from "./scene.js";
+import { writeHelp } from "../ui/helpUI.js";
 
 export class SinglePlayerSettings extends Scene {
     constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
@@ -36,9 +37,9 @@ export class SinglePlayerSettings extends Scene {
         text = "Player 1";
         const p1X = this.maxWidth / 2 - ctx.measureText(text).width / 2;
         ctx.fillText(text, p1X, this.maxHeight / 2 - 30);
-        this.addControlButton("⌨️", p1X, this.maxHeight / 2 + 10);
-        this.addControlButton("🖱️", p1X + 33, this.maxHeight / 2 + 10);
-        this.addControlButton("🎮", p1X + 66, this.maxHeight / 2 + 10);
+        this.addControlButton("⌨️", p1X, this.maxHeight / 2 + 10, "Control the paddle using the ⬅️ and ➡️ keys on the ⌨️");
+        this.addControlButton("🖱️", p1X + 33, this.maxHeight / 2 + 10, "Control the paddle using the cursor with a 🖱️ or 🖲️");
+        this.addControlButton("🎮", p1X + 66, this.maxHeight / 2 + 10, "Control the paddle the 🕹 or the ⬅️ and ➡️ buttons on the 🎮");
 
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
 
@@ -57,7 +58,7 @@ export class SinglePlayerSettings extends Scene {
         ctx.fillText(text, this.maxWidth / 2 - settingsWidth / 2, (this.maxHeight / 2) + menuSpacing * 3);
     }
 
-    addControlButton(text, x, y) {
+    addControlButton(text, x, y, description) {
       this.ctx.fillStyle = "black";
       this.ctx.fillText(text, x, y);
       const measuredWidth = this.ctx.measureText(text).width;
@@ -69,6 +70,7 @@ export class SinglePlayerSettings extends Scene {
       this.ctx.lineWidth = 2;
       if (text === this.getPlayer1Control()) {
         this.ctx.strokeStyle = "green";
+        writeHelp(description);
       } else {
         this.ctx.strokeStyle = "#00000000";
       }

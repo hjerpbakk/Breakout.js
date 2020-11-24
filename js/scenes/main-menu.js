@@ -1,4 +1,5 @@
 import { Scene } from "./scene.js";
+import { writeHelp } from "../ui/helpUI.js";
 
 export class MainMenu extends Scene {
     constructor(canvas, maxWidth, maxHeight, dpr) {
@@ -12,6 +13,7 @@ export class MainMenu extends Scene {
         this.singlePlayer = false;
         this.localCoop = false;
         this.settings = false;
+        writeHelp("Choose your game mode");
     }
 
     update() {

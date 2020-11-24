@@ -4,6 +4,7 @@ import { DefaultController } from "./gamepad-mappings/default-controller.js";
 import { NimbusController } from "./gamepad-mappings/nimbus-controller.js";
 import { PS4Controller } from "./gamepad-mappings/ps4-controller.js";
 import { XboxControllerWin } from "./gamepad-mappings/xbox-controller-win.js";
+import { writeHelp } from "../ui/helpUI.js";
 
 export class Gamepad extends ControlScheme {
     constructor() {
@@ -65,8 +66,7 @@ export class Gamepad extends ControlScheme {
 
     gamepadDisconnected(e) {
         this.controller = {};
-        const gamepadDiv = document.getElementById("gamepad");
-        gamepadDiv.innerText = `${this.controllerScheme.name} disconnected`;
+        writeHelp(`${this.controllerScheme.name} disconnected`);
     }
 
     setCurrentController(gamepad) {
@@ -91,12 +91,13 @@ export class Gamepad extends ControlScheme {
             } else {
                 this.controllerScheme = DefaultController;
             }
-    
-            const gamepadDiv = document.getElementById("gamepad");
-            gamepadDiv.innerText = `${this.controllerScheme.name} connected - move the paddle using 🕹`;
+
+            let helpText = `${this.controllerScheme.name} connected - move the paddle using 🕹`;
             if (this.controllerScheme.supportButtons) {
-                gamepadDiv.innerText = gamepadDiv.innerText + " or ⬅️ and ➡️";
+                helpText = helpText + " or ⬅️ and ➡️";
             }
+
+            writeHelp(helpText);
         }
     }
 }
