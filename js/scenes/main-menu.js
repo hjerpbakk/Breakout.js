@@ -47,7 +47,7 @@ export class MainMenu extends Scene {
     ctx.fillStyle = "black";
     ctx.fillText(text, this.maxWidth / 2 - this.buttonWidth / 2, this.maxHeight / 2);
 
-    
+    /*
     text = "Local Co-op";
     const coopWidth = ctx.measureText(text).width;
     this.localCoopPath = new Path2D();
@@ -61,7 +61,7 @@ export class MainMenu extends Scene {
     ctx.stroke(this.localCoopPath);
     ctx.fillStyle = "black";
     ctx.fillText(text, this.maxWidth / 2 - coopWidth / 2, (this.maxHeight / 2) + menuSpacing);
-    
+    */
   }
 
   dispose() {
@@ -86,17 +86,17 @@ export class MainMenu extends Scene {
     if (this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y)) {
       this.singlePlayer = true;
       this.canvas.style.cursor = "default";
-    } else if (this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
+    } /*else if (this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
       this.localCoop = true;
       this.canvas.style.cursor = "default";
-    }
+    }*/
   }
 
   moveHandler(e) {
     e.preventDefault();
     const XY = this.getXY(e);
-    if (this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y) ||
-      this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
+    if (this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y)/* ||
+      this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)*/) {
       this.canvas.style.cursor = "pointer";
     } else {
       this.canvas.style.cursor = "default";

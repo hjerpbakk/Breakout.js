@@ -2,10 +2,9 @@ import { ControlScheme } from "./control-scheme.js";
 import { Paddle } from "../paddle.js";
 
 export class Mouse extends ControlScheme {
-    constructor(canvas, maxWidth) {
+    constructor(canvas) {
         super();
         this.canvas = canvas;
-        this.maxWidth = maxWidth;
         this.mouseX = 0;
         this.hasMovedAtAll = false;
     }

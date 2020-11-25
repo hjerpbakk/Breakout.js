@@ -26,16 +26,10 @@ export class Paddle extends Drawable {
 
     subscribeToInputEvents() {
         this.controlScheme.subscribeToInputEvents();
-        this.onTouchStart = this.touchHandler.bind(this);
-        document.addEventListener("touchstart", this.onTouchStart);
-        this.onTouchMove = this.touchHandler.bind(this);
-        document.addEventListener("touchmove", this.onTouchMove);
     }
 
     unsubscribeToInputEvents() {
         this.controlScheme.unsubscribeToInputEvents();
-        document.removeEventListener("touchstart", this.onTouchStart);
-        document.removeEventListener("touchmove", this.onTouchMove);
     }
 
     reset() {
@@ -44,8 +38,6 @@ export class Paddle extends Drawable {
     }
 
     update() {
-        // TODO: implement as controller:
-        // - touch
         const momentum = this.controlScheme.update(this.x);
         this.x += Paddle.speed * momentum;
         this.x = clamp(this.x, 0, this.maxWidth - Paddle.width);
@@ -57,10 +49,5 @@ export class Paddle extends Drawable {
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
-    }
-
-    touchHandler(e) {
-        e.preventDefault();
-        this.x = e.touches[0].pageX - this.canvas.offsetLeft - Paddle.width / 2;
     }
 }

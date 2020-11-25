@@ -1,5 +1,6 @@
 import { Scene } from "./scene.js";
 import { writeHelp } from "../ui/helpUI.js";
+import { supportsTouch } from '../settings.js';
 
 export class SinglePlayerSettings extends Scene {
     constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
@@ -11,7 +12,7 @@ export class SinglePlayerSettings extends Scene {
         this.buttonWidth = buttonWidth;
         this.subscribeToInputEvents();
         this.singlePlayer = false;
-        this.control = "⌨️";
+        this.control = supportsTouch ? "👆" : "⌨️";
         this.canvas.style.cursor = "default";
     }
 
@@ -34,12 +35,16 @@ export class SinglePlayerSettings extends Scene {
         ctx.font = `Bold ${this.controllerFontSize}px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu`;
         
         ctx.fillStyle = "black";
-        text = "Player 1";
-        const p1X = this.maxWidth / 2 - ctx.measureText(text).width / 2;
-        ctx.fillText(text, p1X, this.maxHeight / 2 - 30);
-        this.addControlButton("⌨️", p1X, this.maxHeight / 2 + 10, "Control the paddle using the ⬅️ and ➡️ keys on the ⌨️");
-        this.addControlButton("🖱️", p1X + 33, this.maxHeight / 2 + 10, "Control the paddle using the cursor with a 🖱️ or 🖲️");
-        this.addControlButton("🎮", p1X + 66, this.maxHeight / 2 + 10, "Control the paddle the 🕹 or the ⬅️ and ➡️ buttons on the 🎮");
+        text = "Select input method";
+        ctx.fillText(text, this.maxWidth / 2 - ctx.measureText(text).width / 2, this.maxHeight / 2 - 30);
+
+        const controllersStartX = this.maxWidth / 2 - (supportsTouch ? ctx.measureText("⌨️🖱🎮👆").width + 44 : ctx.measureText("⌨️🖱🎮").width + 28) / 2;
+        this.addControlButton("⌨️", controllersStartX, this.maxHeight / 2 + 10, "Control the paddle using the ⬅️ and ➡️ keys on the ⌨️");
+        this.addControlButton("🖱️", controllersStartX + 40, this.maxHeight / 2 + 10, "Control the paddle using the cursor with a 🖱️ or 🖲️");
+        this.addControlButton("🎮", controllersStartX + 80, this.maxHeight / 2 + 10, "Control the paddle the 🕹 or the ⬅️ and ➡️ buttons on the 🎮");
+        if (supportsTouch) {
+          this.addControlButton("👆", controllersStartX + 120, this.maxHeight / 2 + 10, "Control the paddle with your 👆 by touching its desired position");
+        }
 
         ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
 
@@ -128,7 +133,7 @@ export class SinglePlayerSettings extends Scene {
     }
 
     getPlayer1Control() {
-      this.control = localStorage.getItem("Player1Control") ?? "⌨️";
+      this.control = localStorage.getItem("Player1Control") ?? (supportsTouch ? "👆" : "⌨️");
       return this.control;
     }
 

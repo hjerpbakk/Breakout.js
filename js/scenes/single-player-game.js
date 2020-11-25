@@ -4,16 +4,16 @@ import { Paddle } from '../paddle.js';
 import { Brick } from '../brick.js';
 import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
-import { Keyboard } from "../⌨️🖱️🎮/⌨️.js";
-import { Mouse } from "../⌨️🖱️🎮/🖱️.js";
-import { Gamepad } from "../⌨️🖱️🎮/🎮.js";
+import { Keyboard } from "../⌨️🖱️🎮👆/⌨️.js";
+import { Mouse } from "../⌨️🖱️🎮👆/🖱️.js";
+import { Gamepad } from "../⌨️🖱️🎮👆/🎮.js";
+import { Touch } from "../⌨️🖱️🎮👆/👆.js";
 
 export class SinglePlayerGame extends Scene {
     constructor(canvas, maxWidth, maxHeight, level, startScore, startLives, control) {
         super();
         this.canvas = canvas;
-        this.maxWidth = maxWidth;
-
+        
         this.brickRowCount = 6;
         this.brickColumnCount = 7;
         this.remainingBricks = this.brickRowCount * this.brickColumnCount;
@@ -57,9 +57,11 @@ export class SinglePlayerGame extends Scene {
             case "⌨️":
                 return new Keyboard(37, 39);
             case "🖱️":
-                return new Mouse(this.canvas, this.maxWidth);
+                return new Mouse(this.canvas);
             case "🎮":
                 return new Gamepad();
+            case "👆":
+                return new Touch(this.canvas);
         }
     }
 
