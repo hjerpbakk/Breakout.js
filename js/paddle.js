@@ -36,7 +36,7 @@ export class Paddle extends Drawable {
         this.controlScheme.unsubscribeToInputEvents();
         document.removeEventListener("touchstart", this.onTouchStart);
         document.removeEventListener("touchmove", this.onTouchMove);
-    }    
+    }
 
     reset() {
         this.x = (this.maxWidth - Paddle.width) / 2;
@@ -60,7 +60,7 @@ export class Paddle extends Drawable {
     }
 
     touchHandler(e) {
-        this.x = e.touches[0].pageX - this.canvas.offsetLeft - Paddle.width / 2;
         e.preventDefault();
+        this.x = e.touches[0].pageX - this.canvas.offsetLeft - Paddle.width / 2;
     }
 }

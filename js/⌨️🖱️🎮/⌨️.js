@@ -25,6 +25,7 @@ export class Keyboard extends ControlScheme {
     }
 
     keyDownHandler(e) {
+        e.preventDefault();
         if (e.keyCode === this.right) {
             this.momentum = 1;
         }
@@ -34,6 +35,7 @@ export class Keyboard extends ControlScheme {
     }
 
     keyUpHandler(e) {
+        e.preventDefault();
         if (e.keyCode === this.right && this.momentum === 1) {
             this.momentum = 0;
         } else if (e.keyCode === this.left  && this.momentum === -1) {

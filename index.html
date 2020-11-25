@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Breakout.js</title>
@@ -9,12 +10,23 @@
             margin: 0;
         }
 
+        image,
         canvas {
             user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+        }
+
+        canvas {
             background: whitesmoke;
             display: block;
             margin: 0 auto;
         }
+
         div#help {
             margin: 10px;
             text-align: center;
@@ -22,12 +34,14 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Breakout</h1>
     <p>
         <canvas id="myCanvas" width="480" height="360"></canvas>
-        <div id="help"></div>
-        <script type="module" src="/js/game.js"></script>
+    <div id="help"></div>
+    <script type="module" src="/js/game.js"></script>
     </p>
 </body>
+
 </html>

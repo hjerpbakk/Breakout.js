@@ -99,6 +99,7 @@ export class MultiplayerSettings extends Scene {
   }
 
   clickedHandler(e) {
+    e.preventDefault();
     const XY = this.getXY(e);
     if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y)) {
       this.localCoop = true;
@@ -122,6 +123,7 @@ export class MultiplayerSettings extends Scene {
   }
 
   moveHandler(e) {
+    e.preventDefault();
     const XY = this.getXY(e);
     if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y) || this.controllers.some((p) => this.ctx.isPointInPath(p.path, XY.x, XY.y))) {
       this.canvas.style.cursor = "pointer";

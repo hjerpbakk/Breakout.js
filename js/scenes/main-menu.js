@@ -81,6 +81,7 @@ export class MainMenu extends Scene {
   }
 
   clickedHandler(e) {
+    e.preventDefault();
     const XY = this.getXY(e);
     if (this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y)) {
       this.singlePlayer = true;
@@ -92,6 +93,7 @@ export class MainMenu extends Scene {
   }
 
   moveHandler(e) {
+    e.preventDefault();
     const XY = this.getXY(e);
     if (this.ctx.isPointInPath(this.singlePlayerPath, XY.x, XY.y) ||
       this.ctx.isPointInPath(this.localCoopPath, XY.x, XY.y)) {
