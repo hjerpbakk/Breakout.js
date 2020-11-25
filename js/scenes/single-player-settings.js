@@ -94,13 +94,6 @@ export class SinglePlayerSettings extends Scene {
       document.removeEventListener("mousemove", this.onMouseMove);
     }
 
-    getXY(e) {
-      const rect = this.canvas.getBoundingClientRect()
-      const y = (e.clientY - rect.top) * this.dpr;
-      const x = (e.clientX - rect.left) * this.dpr;
-      return {x:x, y:y};
-    }
-
     clickedHandler(e) {
       const XY = this.getXY(e);
       if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y)) {

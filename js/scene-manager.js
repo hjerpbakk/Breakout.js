@@ -18,7 +18,7 @@ export class SceneManager {
         switch (this.currentScene.constructor) {
             case SinglePlayerGame:
                 if (!this.currentScene.player.lives) {
-                    this.changeScene(new GameOver(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.buttonWidth));
+                    this.changeScene(new GameOver(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.buttonWidth, this.currentScene.player));
                 } else if (this.currentScene.remainingBricks === 0) {
                     this.level++;
                     this.createNewGame(this.currentScene.player.score, this.currentScene.player.lives);
@@ -27,7 +27,10 @@ export class SceneManager {
                 break;
             case GameOver:
             case Victory:
-                // TODO this.createMainMenu();
+                if (this.currentScene.tryAgain) {
+                    this.createMainMenu();
+                }
+            
                 break;
             case MainMenu:
                 this.buttonWidth = this.currentScene.buttonWidth;
@@ -41,7 +44,7 @@ export class SceneManager {
             case SinglePlayerSettings:
                 if (this.currentScene.singlePlayer) {
                     this.level = 0
-                    this.createNewGame(0, 1);
+                    this.createNewGame(0, 3);
                 }
                 
                 break;

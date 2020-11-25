@@ -13,4 +13,11 @@ export class Scene {
     dispose() {
         throw new Error('The method dispose must be implemented');
     }
+
+    getXY(e) {
+        const rect = this.canvas.getBoundingClientRect()
+        const y = (e.clientY - rect.top) * this.dpr;
+        const x = (e.clientX - rect.left) * this.dpr;
+        return { x: x, y: y };
+    }
 }

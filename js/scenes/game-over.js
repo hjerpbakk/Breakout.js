@@ -1,41 +1,56 @@
 import { Scene } from "./scene.js";
+import { writeHelp } from "../ui/helpUI.js";
 
 export class GameOver extends Scene {
-    constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
+    constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth, player) {
         super();
         this.canvas = canvas;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.dpr = dpr;
         this.buttonWidth = buttonWidth;
+        this.player = player;
+        this.tryAgain = false;
         this.subscribeToInputEvents();
+        writeHelp("Game Over 😭");
     }
 
     update() {
-        //alert("GAME OVER"); 
     }
 
     draw(/** @type {WebGLRenderingContext} */ ctx) {
+        this.ctx = ctx;
         ctx.font = "Bold 32px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         ctx.fillStyle = "black";
-        let text = "Game Over";
+        let text = "☠️ Ouch! ☠️";
         const titleWidth = ctx.measureText(text).width;
         ctx.fillText(text, this.maxWidth / 2 - titleWidth / 2, this.maxHeight / 2 - 90);
 
-        ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
+        ctx.font = "Bold 24px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
+        ctx.fillStyle = "black";
+        text = "Your Score";
+        ctx.fillText(text, this.maxWidth / 2 - ctx.measureText(text).width / 2, this.maxHeight / 2 - 30);
+        text = this.player.score;
+        ctx.fillText(text, this.maxWidth / 2 - ctx.measureText(text).width / 2, this.maxHeight / 2);
 
+        text = "High Score";
+        ctx.fillText(text, this.maxWidth / 2 - ctx.measureText(text).width / 2, this.maxHeight / 2 + 30);
+        text = this.player.highScore;
+        ctx.fillText(text, this.maxWidth / 2 - ctx.measureText(text).width / 2, this.maxHeight / 2 + 60);
+
+        ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
         text = "Try again!";
         const menuSpacing = 42;
         const settingsWidth = ctx.measureText(text).width;
-        this.startGamePath = new Path2D();
-        this.startGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
-        this.startGamePath.closePath();
+        this.tryAgainGamePath = new Path2D();
+        this.tryAgainGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+        this.tryAgainGamePath.closePath();
         ctx.fillStyle = "#FFFFFF";
         ctx.fillStyle = "rgba(225,225,225,0.5)";
-        ctx.fill(this.startGamePath);
+        ctx.fill(this.tryAgainGamePath);
         ctx.lineWidth = 2;
         ctx.strokeStyle = "#000000";
-        ctx.stroke(this.startGamePath);
+        ctx.stroke(this.tryAgainGamePath);
         ctx.fillStyle = "black";
         ctx.fillText(text, this.maxWidth / 2 - settingsWidth / 2, (this.maxHeight / 2) + menuSpacing * 3);
     }
@@ -45,14 +60,32 @@ export class GameOver extends Scene {
     }
 
     subscribeToInputEvents() {
-        //this.onClick = this.clickedHandler.bind(this);
-        //document.addEventListener("click", this.onClick);
-        //this.onMouseMove = this.moveHandler.bind(this);
-        //document.addEventListener("mousemove", this.onMouseMove);
+        this.onClick = this.clickedHandler.bind(this);
+        document.addEventListener("click", this.onClick);
+        this.onMouseMove = this.moveHandler.bind(this);
+        document.addEventListener("mousemove", this.onMouseMove);
     }
 
     unsubscribeToInputEvents() {
-        //document.removeEventListener("click", this.onClick);
-        //document.removeEventListener("mousemove", this.onMouseMove);
+        document.removeEventListener("click", this.onClick);
+        document.removeEventListener("mousemove", this.onMouseMove);
     }
+
+    clickedHandler(e) {
+        const XY = this.getXY(e);
+        if (this.ctx.isPointInPath(this.tryAgainGamePath, XY.x, XY.y)) {
+          this.tryAgain = true;
+          this.canvas.style.cursor = "default";
+          return;
+        }
+    }
+
+    moveHandler(e) {
+        const XY = this.getXY(e);
+        if(this.ctx.isPointInPath(this.tryAgainGamePath, XY.x, XY.y)) {
+          this.canvas.style.cursor = "pointer";
+        } else {
+          this.canvas.style.cursor = "default";
+        }
+      }
 }
