@@ -1,4 +1,4 @@
-import { ControlScheme } from "../controllers/control-scheme.js";
+import { ControlScheme } from "./control-scheme.js";
 import { Paddle } from "../paddle.js";
 
 export class Mouse extends ControlScheme {

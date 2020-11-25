@@ -4,9 +4,9 @@ import { Paddle } from '../paddle.js';
 import { Brick } from '../brick.js';
 import { Bricks } from '../bricks.js';
 import { Player } from '../player.js';
-import { Keyboard } from "../controllers/keyboard.js";
-import { Mouse } from "../controllers/mouse.js";
-import { Gamepad } from "../controllers/gamepad.js";
+import { Keyboard } from "../⌨️🖱️🎮/⌨️.js";
+import { Mouse } from "../⌨️🖱️🎮/🖱️.js";
+import { Gamepad } from "../⌨️🖱️🎮/🎮.js";
 
 export class SinglePlayerGame extends Scene {
     constructor(canvas, maxWidth, maxHeight, level, startScore, startLives, control) {

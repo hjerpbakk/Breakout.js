@@ -1,4 +1,4 @@
-import { ControlScheme } from "../controllers/control-scheme.js";
+import { ControlScheme } from "./control-scheme.js";
 import { XboxController } from "./gamepad-mappings/xbox-controller.js";
 import { DefaultController } from "./gamepad-mappings/default-controller.js";
 import { NimbusController } from "./gamepad-mappings/nimbus-controller.js";
