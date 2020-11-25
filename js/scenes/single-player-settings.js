@@ -46,7 +46,7 @@ export class SinglePlayerSettings extends Scene {
         text = "Let's go!";
         const settingsWidth = ctx.measureText(text).width;
         this.startGamePath = new Path2D();
-        this.startGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+        this.startGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - 16 - 5, this.buttonWidth + 20, 32);
         this.startGamePath.closePath();
         ctx.fillStyle = "#FFFFFF";
         ctx.fillStyle = "rgba(225,225,225,0.5)";

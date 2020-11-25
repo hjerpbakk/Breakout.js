@@ -21,6 +21,7 @@ export class GameOver extends Scene {
 
   draw(/** @type {WebGLRenderingContext} */ ctx) {
     this.ctx = ctx;
+
     ctx.font = "Bold 32px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
     ctx.fillStyle = "black";
     let text = "☠️ Ouch! ☠️";
@@ -44,7 +45,7 @@ export class GameOver extends Scene {
     const menuSpacing = 42;
     const settingsWidth = ctx.measureText(text).width;
     this.tryAgainGamePath = new Path2D();
-    this.tryAgainGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+    this.tryAgainGamePath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing * 3 - 16 - 5, this.buttonWidth + 20, 32);
     this.tryAgainGamePath.closePath();
     ctx.fillStyle = "#FFFFFF";
     ctx.fillStyle = "rgba(225,225,225,0.5)";

@@ -33,10 +33,10 @@ export class MainMenu extends Scene {
 
     ctx.font = "Bold 16px -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu";
 
-    text = "Single Player";
+    text = "Single player";
     this.buttonWidth = ctx.measureText(text).width;
     this.singlePlayerPath = new Path2D();
-    this.singlePlayerPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, this.maxHeight / 2 - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+    this.singlePlayerPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, this.maxHeight / 2 - 16 - 5, this.buttonWidth + 20, 32);
     this.singlePlayerPath.closePath();
     ctx.fillStyle = "#FFFFFF";
     ctx.fillStyle = "rgba(225,225,225,0.5)";
@@ -51,7 +51,7 @@ export class MainMenu extends Scene {
     text = "Local Co-op";
     const coopWidth = ctx.measureText(text).width;
     this.localCoopPath = new Path2D();
-    this.localCoopPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing - ((16 * this.dpr) / 2) - 5, this.buttonWidth + 20, 16 * this.dpr);
+    this.localCoopPath.rect(this.maxWidth / 2 - this.buttonWidth / 2 - 10, (this.maxHeight / 2) + menuSpacing - 16 - 5, this.buttonWidth + 20, 32);
     this.localCoopPath.closePath();
     ctx.fillStyle = "#FFFFFF";
     ctx.fillStyle = "rgba(225,225,225,0.5)";
