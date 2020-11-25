@@ -5,7 +5,6 @@ export class SinglePlayerSettings extends Scene {
     constructor(canvas, maxWidth, maxHeight, dpr, buttonWidth) {
         super();
         this.canvas = canvas;
-        this.canvas.style.cursor = "default";
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.dpr = dpr;
@@ -84,13 +83,15 @@ export class SinglePlayerSettings extends Scene {
     }
 
     subscribeToInputEvents() {
-        document.addEventListener("click", this.clickedHandler.bind(this));
-        document.addEventListener("mousemove", this.moveHandler.bind(this));
+        this.onClick = this.clickedHandler.bind(this);
+        document.addEventListener("click", this.onClick);
+        this.onMouseMove = this.moveHandler.bind(this);
+        document.addEventListener("mousemove", this.onMouseMove);
     }
 
     unsubscribeToInputEvents() {
-      document.removeEventListener("click", this.clickedHandler.bind(this));
-      document.removeEventListener("mousemove", this.moveHandler.bind(this));
+      document.removeEventListener("click", this.onClick);
+      document.removeEventListener("mousemove", this.onMouseMove);
     }
 
     getXY(e) {
@@ -104,6 +105,7 @@ export class SinglePlayerSettings extends Scene {
       const XY = this.getXY(e);
       if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y)) {
         this.singlePlayer = true;
+        this.canvas.style.cursor = "default";
         return;
       }
 

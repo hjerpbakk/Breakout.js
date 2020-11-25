@@ -11,11 +11,12 @@ export class Mouse extends ControlScheme {
     }
 
     subscribeToInputEvents() {
-        document.addEventListener("mousemove", this.mouseHandler.bind(this));
+        this.onMouseMove = this.mouseHandler.bind(this);
+        document.addEventListener("mousemove", this.onMouseMove);
     }
 
     unsubscribeToInputEvents() {
-        document.removeEventListener("mousemove", this.mouseHandler.bind(this));
+        document.removeEventListener("mousemove", this.onMouseMove);
     }
 
     /**

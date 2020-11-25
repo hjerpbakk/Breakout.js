@@ -26,14 +26,16 @@ export class Paddle extends Drawable {
 
     subscribeToInputEvents() {
         this.controlScheme.subscribeToInputEvents();
-        document.addEventListener("touchstart", this.touchHandler.bind(this));
-        document.addEventListener("touchmove", this.touchHandler.bind(this));
+        this.onTouchStart = this.touchHandler.bind(this);
+        document.addEventListener("touchstart", this.onTouchStart);
+        this.onTouchMove = this.touchHandler.bind(this);
+        document.addEventListener("touchmove", this.onTouchMove);
     }
 
     unsubscribeToInputEvents() {
         this.controlScheme.unsubscribeToInputEvents();
-        document.removeEventListener("touchstart", this.touchHandler.bind(this));
-        document.removeEventListener("touchmove", this.touchHandler.bind(this));
+        document.removeEventListener("touchstart", this.onTouchStart);
+        document.removeEventListener("touchmove", this.onTouchMove);
     }    
 
     reset() {

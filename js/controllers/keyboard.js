@@ -9,13 +9,15 @@ export class Keyboard extends ControlScheme {
     }
 
     subscribeToInputEvents() {
-        document.addEventListener("keydown", this.keyDownHandler.bind(this));
-        document.addEventListener("keyup", this.keyUpHandler.bind(this));
+        this.onKeyDown = this.keyDownHandler.bind(this);
+        document.addEventListener("keydown", this.onKeyDown);
+        this.onKeyUp = this.keyUpHandler.bind(this);
+        document.addEventListener("keyup", this.onKeyUp);
     }
 
     unsubscribeToInputEvents() {
-        document.removeEventListener("keydown", this.keyDownHandler.bind(this));
-        document.removeEventListener("keyup", this.keyUpHandler.bind(this));
+        document.removeEventListener("keydown", this.onKeyDown);
+        document.removeEventListener("keyup", this.onKeyUp);
     }
 
     update() {

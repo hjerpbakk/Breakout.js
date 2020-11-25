@@ -18,7 +18,7 @@ export class SceneManager {
         switch (this.currentScene.constructor) {
             case SinglePlayerGame:
                 if (!this.currentScene.player.lives) {
-                    this.changeScene(new GameOver());
+                    this.changeScene(new GameOver(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.buttonWidth));
                 } else if (this.currentScene.remainingBricks === 0) {
                     this.level++;
                     this.createNewGame(this.currentScene.player.score, this.currentScene.player.lives);
@@ -27,20 +27,21 @@ export class SceneManager {
                 break;
             case GameOver:
             case Victory:
-                this.createMainMenu();
+                // TODO this.createMainMenu();
                 break;
             case MainMenu:
+                this.buttonWidth = this.currentScene.buttonWidth;
                 if (this.currentScene.singlePlayer) {
-                    this.changeScene(new SinglePlayerSettings(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.currentScene.buttonWidth));
+                    this.changeScene(new SinglePlayerSettings(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.buttonWidth));
                 } else if (this.currentScene.localCoop) {
-                    this.changeScene(new MultiplayerSettings(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.currentScene.buttonWidth));
+                    this.changeScene(new MultiplayerSettings(this.canvas, this.maxWidth, this.maxHeight, this.dpr, this.buttonWidth));
                 }
 
                 break;
             case SinglePlayerSettings:
                 if (this.currentScene.singlePlayer) {
                     this.level = 0
-                    this.createNewGame(0, 3);
+                    this.createNewGame(0, 1);
                 }
                 
                 break;

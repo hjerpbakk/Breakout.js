@@ -14,13 +14,15 @@ export class Gamepad extends ControlScheme {
     }
 
     subscribeToInputEvents() {
-        window.addEventListener("gamepadconnected", this.gamepadConnected.bind(this));
-        window.addEventListener("gamepaddisconnected", this.gamepadDisconnected.bind(this));
+        this.onGamepadConnected = this.gamepadConnected.bind(this);
+        window.addEventListener("gamepadconnected", this.onGamepadConnected);
+        this.onGamepadDisconnected = this.gamepadDisconnected.bind(this);
+        window.addEventListener("gamepaddisconnected", this.onGamepadDisconnected);
     }
 
     unsubscribeToInputEvents() {
-        window.removeEventListener("gamepadconnected", this.gamepadConnected.bind(this));
-        window.removeEventListener("gamepaddisconnected", this.gamepadDisconnected.bind(this));
+        window.removeEventListener("gamepadconnected", this.onGamepadConnected);
+        window.removeEventListener("gamepaddisconnected", this.onGamepadDisconnected);
     }
 
     update() {
