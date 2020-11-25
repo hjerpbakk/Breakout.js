@@ -12,6 +12,7 @@ export class SinglePlayerSettings extends Scene {
         this.subscribeToInputEvents();
         this.singlePlayer = false;
         this.control = "⌨️";
+        this.canvas.style.cursor = "default";
     }
 
     update() {
@@ -98,7 +99,12 @@ export class SinglePlayerSettings extends Scene {
       const XY = this.getXY(e);
       if (this.ctx.isPointInPath(this.startGamePath, XY.x, XY.y)) {
         this.singlePlayer = true;
-        this.canvas.style.cursor = "default";
+        if (this.control === "🖱️") {
+          this.canvas.style.cursor = "default";
+        } else {
+          this.canvas.style.cursor = "none";
+        }
+        
         return;
       }
 

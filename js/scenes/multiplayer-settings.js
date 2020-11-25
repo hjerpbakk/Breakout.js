@@ -10,6 +10,7 @@ export class MultiplayerSettings extends Scene {
     this.buttonWidth = buttonWidth;
     this.subscribeToInputEvents();
     this.localCoop = false;
+    this.canvas.style.cursor = "default";
   }
 
   update() {

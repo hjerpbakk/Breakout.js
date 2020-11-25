@@ -13,6 +13,7 @@ export class GameOver extends Scene {
         this.tryAgain = false;
         this.subscribeToInputEvents();
         writeHelp("Game Over 😭");
+        this.canvas.style.cursor = "default";
     }
 
     update() {

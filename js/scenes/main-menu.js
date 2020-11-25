@@ -13,6 +13,7 @@ export class MainMenu extends Scene {
     this.localCoop = false;
     this.settings = false;
     writeHelp("Choose your game mode");
+    this.canvas.style.cursor = "default";
   }
 
   update() {
